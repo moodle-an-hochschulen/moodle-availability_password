@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016010601;
-$plugin->requires  = 2014111000; // Moodle 2.8.
-$plugin->cron      = 0;
 $plugin->component = 'availability_password';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '2.9+ (Build: 2016010601)';
+$plugin->version = 2015111600;
+$plugin->release = '3.0 (Build: 2016010100)';
+$plugin->requires = 2015111600;
+$plugin->maturity = MATURITY_STABLE;
+

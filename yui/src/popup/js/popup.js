@@ -99,7 +99,11 @@ M.availability_password.popup = {
                             return;
                         }
                         if (details.success) {
-                            document.location.reload();
+                            if (details.redirect !== undefined) {
+                                document.location = details.redirect;
+                            } else {
+                                document.location.reload();
+                            }
                         } else {
                             Y.one(SELECTORS.ERRORMESSAGE).setHTML(M.util.get_string('wrongpassword', 'availability_password'));
                             Y.one(SELECTORS.PASSWORDFIELD).focus();

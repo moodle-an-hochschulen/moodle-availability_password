@@ -43,6 +43,21 @@ class condition extends \core_availability\condition {
     }
 
     /**
+     * Should correctly entered passwords be stored in the user session
+     * or in the DB
+     * @return bool true if passwords are stored in the session
+     */
+    private function remember_session() {
+        static $remember = null;
+        if ($remember === null) {
+            // Note: global settings currently unsupported for availability conditions.
+            // For now, this will always return false, unless manually inserted into the database.
+            $remember = get_config('availability_password', 'remember');
+        }
+        return ($remember === 'session');
+    }
+
+    /**
      * Determines whether a particular item is currently available
      * according to this availability condition.
      *
@@ -165,29 +180,47 @@ class condition extends \core_availability\condition {
      * @param $userid
      */
     private function save_available(cm_info $cm, $userid) {
-        global $DB;
+        global $USER, $DB;
 
         if ($this->is_available_internal($cm, $userid)) {
             return; // Password already marked as accepted.
         }
 
-        // Save the entered password, in case the password is changed or there are multiple passwords
-        // on an activity (no idea why that would be done, but, in theory, it is supported by the code).
-        $ins = (object)[
-            'courseid' => $cm->course,
-            'cmid' => $cm->id,
-            'userid' => $userid,
-            'password' => $this->password,
-        ];
-        $DB->insert_record('availability_password_avail', $ins, false);
+        if ($this->remember_session()) {
+            // Store in the session.
+            if ($userid != $USER->id) {
+                return; // With per-session remembering, only the current user can save passwords.
+            }
+            if (!isset($USER->availability_password)) {
+                $USER->availability_password = [];
+            }
+            if (!isset($USER->availability_password[$cm->id])) {
+                $USER->availability_password[$cm->id] = [];
+            }
+            $USER->availability_password[$cm->id][] = $this->password;
 
-        self::$passwordsaccepted = null; // Clear the cache (just in case).
+        } else {
+            // Save the entered password in the DB, in case the password is changed or there are multiple passwords
+            // on an activity (no idea why that would be done, but, in theory, it is supported by the code).
+            $ins = (object) [
+                'courseid' => $cm->course,
+                'cmid' => $cm->id,
+                'userid' => $userid,
+                'password' => $this->password,
+            ];
+            $DB->insert_record('availability_password_avail', $ins, false);
+        }
+
+        self::$passwordsaccepted = null; // Clear the static cache (just in case).
     }
 
     private function is_available_internal(cm_info $cm, $userid) {
         global $USER, $DB;
 
         if ($userid != $USER->id) {
+            if ($this->remember_session()) {
+                return false; // Only remember whilst the user is logged in.
+            }
             // Not the current user - just load a single record.
             $cond = array('cmid' => $cm->id, 'userid' => $userid, 'password' => $this->password);
             return $DB->record_exists('availability_password_avail', $cond);
@@ -195,14 +228,24 @@ class condition extends \core_availability\condition {
 
         if (self::$passwordsaccepted === null) {
             // Current user, load the results for the whole course.
-            $cond = array('courseid' => $cm->course, 'userid' => $userid);
-            $recs = $DB->get_records('availability_password_avail', $cond);
-            self::$passwordsaccepted = [];
-            foreach ($recs as $rec) {
-                if (!isset(self::$passwordsaccepted[$rec->cmid])) {
-                    self::$passwordsaccepted[$rec->cmid] = [];
+            if ($this->remember_session()) {
+                // Retrieve from the user session.
+                if (isset($USER->availability_password)) {
+                    self::$passwordsaccepted = $USER->availability_password;
+                } else {
+                    self::$passwordsaccepted = [];
                 }
-                self::$passwordsaccepted[$rec->cmid][] = $rec->password;
+            } else {
+                // Retrieve from the database.
+                $cond = array('courseid' => $cm->course, 'userid' => $userid);
+                $recs = $DB->get_records('availability_password_avail', $cond);
+                self::$passwordsaccepted = [];
+                foreach ($recs as $rec) {
+                    if (!isset(self::$passwordsaccepted[$rec->cmid])) {
+                        self::$passwordsaccepted[$rec->cmid] = [];
+                    }
+                    self::$passwordsaccepted[$rec->cmid][] = $rec->password;
+                }
             }
         }
 

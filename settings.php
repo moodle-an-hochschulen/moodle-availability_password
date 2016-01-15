@@ -15,18 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Availability password - Version file
+ * Global settings
  *
- * @package     availabiliy
- * @subpackage  availabiliy_password
- * @copyright   2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   availability_password
+ * @copyright 2016 Davo Smith, Synergy Learning
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'availability_password';
-$plugin->version = 2016011502;
-$plugin->release = '3.0 (Build: 2016011502)';
-$plugin->requires = 2015111600;
-$plugin->maturity = MATURITY_STABLE;
+// Sadly, this is currently unsupported by Moodle - leaving in place in case it is in the future.
+
+$opts = [
+    'db' => new lang_string('permanently', 'availability_password'),
+    'session' => new lang_string('untillogout', 'availability_password')
+];
+$setting = new admin_setting_configselect('availability_password/remember',
+                                          new lang_string('rememberpassword', 'availability_password'), '', 'db', $opts);
+$settings->add($setting);

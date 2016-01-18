@@ -55,7 +55,4 @@ Feature: When a teacher configures a password restriction a student cannot acces
     And I set the field "availability_password" to "Testing123"
     And I press "Submit"
     And I wait to be redirected
-    Then I should not see "Not available unless: You enter the correct password"
-
-    When I click on "Restricted page" "text"
     Then I should see "Some page content"

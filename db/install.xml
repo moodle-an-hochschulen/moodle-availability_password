@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="availability/condition/password/db" VERSION="20160106" COMMENT="XMLDB file for Moodle availability/condition/password"
+<XMLDB PATH="availability/condition/password/db" VERSION="20160118" COMMENT="XMLDB file for Moodle availability/condition/password"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="availability_password_avail" COMMENT="Lists all users who have correctly entered passwords for the given activity">
+    <TABLE NAME="availability_password_grant" COMMENT="Lists all users who have correctly entered passwords for the given activity">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>

@@ -208,7 +208,7 @@ class condition extends \core_availability\condition {
                 'userid' => $userid,
                 'password' => $this->password,
             ];
-            $DB->insert_record('availability_password_avail', $ins, false);
+            $DB->insert_record('availability_password_grant', $ins, false);
         }
 
         self::$passwordsaccepted = null; // Clear the static cache (just in case).
@@ -223,7 +223,7 @@ class condition extends \core_availability\condition {
             }
             // Not the current user - just load a single record.
             $cond = array('cmid' => $cm->id, 'userid' => $userid, 'password' => $this->password);
-            return $DB->record_exists('availability_password_avail', $cond);
+            return $DB->record_exists('availability_password_grant', $cond);
         }
 
         if (self::$passwordsaccepted === null) {
@@ -238,7 +238,7 @@ class condition extends \core_availability\condition {
             } else {
                 // Retrieve from the database.
                 $cond = array('courseid' => $cm->course, 'userid' => $userid);
-                $recs = $DB->get_records('availability_password_avail', $cond);
+                $recs = $DB->get_records('availability_password_grant', $cond);
                 self::$passwordsaccepted = [];
                 foreach ($recs as $rec) {
                     if (!isset(self::$passwordsaccepted[$rec->cmid])) {
@@ -263,7 +263,7 @@ class condition extends \core_availability\condition {
     public static function course_module_deleted(\core\event\course_module_deleted $event) {
         global $DB;
         $cmid = $event->contextinstanceid;
-        $DB->delete_records('availability_password_avail', array('cmid' => $cmid));
+        $DB->delete_records('availability_password_grant', array('cmid' => $cmid));
     }
 
     /**

@@ -27,8 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['description'] = 'Require students to enter a password.';
 $string['enterpassword'] = 'Enter password';
-$string['enterpasswordfor'] = 'Enter password for {$a}';
+$string['enterpasswordfor'] = 'Enter password';
 $string['error_setpassword'] = 'You must specify a password';
+$string['passwordintro'] = 'Access to \'{$a}\' is protected with a password. If you do not know the password for \'{$a}\', please ask your teacher.';
 $string['permanently'] = 'Permanently';
 $string['pluginname'] = 'Restriction by password';
 $string['rememberpassword'] = 'Remember password entered';

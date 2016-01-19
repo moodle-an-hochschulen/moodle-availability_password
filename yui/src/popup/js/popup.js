@@ -10,7 +10,7 @@
 /*global M*/
 var SELECTORS = {
     MAINREGION: '#region-main',
-    PASSWORDLINKS: '.availability_password-popup',
+    PASSWORDLINK: '.availability_password-popup',
     PASSWORDFIELD: '#availability_password',
     ERRORMESSAGE: '#availability_password_error',
     CMCONTAINER: '.activity',
@@ -22,7 +22,9 @@ M.availability_password.popup = {
     api: M.cfg.wwwroot + '/availability/condition/password/ajax.php',
 
     init: function () {
-        Y.one(SELECTORS.MAINREGION).delegate('click', this.showPopup, SELECTORS.PASSWORDLINKS, this);
+        Y.one(SELECTORS.MAINREGION).delegate('click', this.showPopup, SELECTORS.PASSWORDLINK, this);
+        Y.one(SELECTORS.MAINREGION).delegate('click', this.checkShowPopup, SELECTORS.CMNAME, this);
+        this.initActivityLinks();
     },
 
     showPopup: function (e) {
@@ -52,6 +54,8 @@ M.availability_password.popup = {
 
         content = '';
         content += '<span id="availability_password_error"></span>';
+        content += '<span class="availability_password_intro">' +
+            M.util.get_string('passwordintro', 'availability_password', cmname) + '</span>';
         content += '<label for="availability_password">' + M.util.get_string('enterpasswordfor', 'availability_password', cmname) +
             '</label>';
         content += '<input type="password" id="availability_password">';
@@ -99,7 +103,11 @@ M.availability_password.popup = {
                             return;
                         }
                         if (details.success) {
-                            document.location.reload();
+                            if (details.redirect !== undefined) {
+                                document.location = details.redirect;
+                            } else {
+                                document.location.reload();
+                            }
                         } else {
                             Y.one(SELECTORS.ERRORMESSAGE).setHTML(M.util.get_string('wrongpassword', 'availability_password'));
                             Y.one(SELECTORS.PASSWORDFIELD).focus();
@@ -125,5 +133,44 @@ M.availability_password.popup = {
         });
 
         Y.one(SELECTORS.PASSWORDFIELD).focus().on('key', submit, 'enter', this);
+    },
+
+    /**
+     * Check to see if the activity is unavailable, but has an associated password popup.
+     * If so, popup the relevant password request, when the activity name is clicked on.
+     * @param e
+     */
+    checkShowPopup: function (e) {
+        var activityName, pwLink;
+
+        activityName = e.currentTarget;
+        if (activityName.ancestor('a')) {
+            return; // The activity name is already linked - go with the default action.
+        }
+
+        pwLink = activityName.ancestor(SELECTORS.CMCONTAINER).one(SELECTORS.PASSWORDLINK);
+        if (pwLink) {
+            // Trigger the relevant password popup.
+            e.preventDefault();
+            e.stopPropagation();
+            this.showPopup({
+                currentTarget: pwLink,
+                preventDefault: function () { /* Do nothing */ },
+                stopPropagation: function () { /* Do nothing */ }
+            });
+        }
+    },
+
+    initActivityLinks: function() {
+        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME).each(function(activityName) {
+            var pwLink;
+            if (activityName.ancestor('a')) {
+                return; // Already linked, nothing to do.
+            }
+            pwLink = activityName.ancestor(SELECTORS.CMCONTAINER).one(SELECTORS.PASSWORDLINK);
+            if (pwLink) {
+                activityName.setStyle('cursor', 'pointer');
+            }
+        });
     }
 };

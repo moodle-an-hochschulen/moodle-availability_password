@@ -3,3 +3,8 @@
     font-weight: bold;
     color: red;
 }
+
+.availability_password_intro {
+    display: block;
+    font-size: 90%;
+}

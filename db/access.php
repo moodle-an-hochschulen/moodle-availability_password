@@ -15,18 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Availability password - Version file
+ * Capability definitions
  *
- * @package     availabiliy
- * @subpackage  availabiliy_password
- * @copyright   2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   availability_password
+ * @copyright 2016 Davo Smith, Synergy Learning
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'availability_password';
-$plugin->version = 2016011802;
-$plugin->release = '3.0 (Build: 2016011802)';
-$plugin->requires = 2015111600;
-$plugin->maturity = MATURITY_STABLE;
+$capabilities = array(
+    'availability/password:addinstance' => array(
+        'captype' => 'write',
+        'riskbitmask' => 0,
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'editingteacher' => CAP_ALLOW,
+            'coursecreator' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    )
+);

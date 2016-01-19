@@ -33,6 +33,16 @@ class frontend extends \core_availability\frontend {
     }
 
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
-        return ($section === null); // Can only be added to modules, not sections.
+        if ($section !== null) {
+            // Can only be added to modules, not sections.
+            return false;
+        }
+
+        if ($cm) {
+            $context = $cm->context;
+        } else {
+            $context = \context_course::instance($course->id);
+        }
+        return has_capability('availability/password:addinstance', $context);
     }
 }

@@ -45,6 +45,13 @@ $ret = (object) [
 ];
 if (\availability_password\condition::submit_password_for_cm($cm, $password)) {
     $ret->success = 1;
+
+    // Check if the activity can now be accessed.
+    $modinfo = get_fast_modinfo($course);
+    $cminfo = $modinfo->get_cm($cm->id);
+    if ($cminfo->available) {
+        $ret->redirect = $cm->url->out(false);
+    }
 }
 
 echo json_encode($ret);

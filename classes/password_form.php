@@ -38,7 +38,10 @@ class password_form extends \moodleform {
         $mform->addElement('hidden', 'id', $cm->id);
         $mform->setType('id', PARAM_INT);
 
-        $label = get_string('enterpasswordfor', 'availability_password', $cm->get_formatted_name());
+        $label = get_string('passwordintro', 'availability_password', $cm->get_formatted_name());
+        $mform->addElement('static', 'passwordintro', '', $label);
+
+        $label = get_string('enterpasswordfor', 'availability_password');
         $mform->addElement('password', 'activitypassword', $label, array('maxlength' => 255));
         $mform->addRule('activitypassword', null, 'required');
         $mform->addRule('activitypassword', null, 'maxlength', 255);

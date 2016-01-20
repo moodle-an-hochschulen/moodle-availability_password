@@ -62,6 +62,16 @@ INSERT INTO mdl_config_plugins ("plugin", "name", "value") VALUES ('availability
 Please only run this SQL command if you really know what you are doing. After running the SQL command, you might have to clear your Moodle cache for the change to take effect.
 
 
+Restricting usage
+-----------------
+
+The feature which availability_password provides is necessary / useful in specialized scenarios / environments. However, you might not want every teacher in your Moodle instance to be able to add passwords to their activities / resources because this will put additional barriers between your students and your content and might even harm the acceptance of Moodle among students in your institution.
+
+Because of that and in contrast to other availability plugins, availability_password supports a capability availability/password:addinstance which lets you control who is able to add this condition to activities / resources and who is not. By default, the capability is granted to managers, coursecreators and editing teachers at plugin installation time, but feel free to change this setup within your Moodle role configuration.
+
+By the way, if teacher A who has this capability adds the condition to an activity / resource and teacher B who has not the capability edits this activity / resource, B is able to see, edit and delete the condition of this particular activity / resource, but is still not allowed to add the condition to another activity / resource in the course.
+
+
 Themes
 ------
 

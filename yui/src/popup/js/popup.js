@@ -55,7 +55,7 @@ M.availability_password.popup = {
         content = '';
         content += '<span class="availability_password_intro">' +
             M.util.get_string('passwordintro', 'availability_password', cmname) + '</span>';
-        content += '<label for="availability_password">' + M.util.get_string('enterpasswordfor', 'availability_password', cmname) +
+        content += '<label for="availability_password">' + M.util.get_string('enterpassword', 'availability_password') +
             '</label>';
         content += '<span id="availability_password_error"></span>';
         content += '<input type="password" id="availability_password">';

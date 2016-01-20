@@ -42,7 +42,7 @@ M.availability_password.form.getNode = function (json) {
     // Create HTML structure.
     html = '';
     html += '<span class="availability-group"><label for="' + id + '">' +
-        M.util.get_string('title', 'availability_password') + '</label>';
+        M.util.get_string('title', 'availability_password') + ' </label>';
     html += '<input type="text" name="password" id="' + id + '">';
     node = Y.Node.create('<span>' + html + '</span>');
 

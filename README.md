@@ -46,6 +46,22 @@ It would be possible to rework the plugin to work with sections as well by proce
 If you really want availability_password to protect course sections, please let us know on https://github.com/moodleuulm/moodle-availability_password/issues or, ideally, submit a pull request on https://github.com/moodleuulm/moodle-availability_password/pull.
 
 
+Granting only temporary access
+------------------------------
+
+At the moment, if a student has input the correct password for an activity / resource, availability_password remembers this fact and grants access for this particular student until forever (Special case: Or until, for whatever reason, a teacher changes the password for the activity / resource).
+
+However, there might be scenarios with even higher security demands which make it necessary that a student inputs the password every time he wants to re-access the activity / resource after a login and to have Moodle forget the fact that the user has input the correct password after he has logged out or his Moodle session has expired.
+
+availability_password also supports this use case. However, at the moment, Moodle core does not support settings pages for availability conditions (see https://tracker.moodle.org/browse/MDL-49620).
+
+So, until Moodle core supports this feature and if you really need to limit the memory of availability_password to a user's session, you have to set the plugin's configuration directly in the DB. This can be done with this SQL command:
+
+INSERT INTO mdl_config_plugins ("plugin", "name", "value") VALUES ('availability_password', 'remember', 'session');
+
+Please only run this SQL command if you really know what you are doing. After running the SQL command, you might have to clear your Moodle cache for the change to take effect.
+
+
 Themes
 ------
 

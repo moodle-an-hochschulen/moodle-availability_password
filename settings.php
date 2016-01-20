@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Sadly, this is currently unsupported by Moodle - leaving in place in case it is in the future.
+// Sadly, this is currently unsupported by Moodle - leaving in place in case it is in the future (see https://tracker.moodle.org/browse/MDL-49620)
 
 $opts = [
     'db' => new lang_string('permanently', 'availability_password'),

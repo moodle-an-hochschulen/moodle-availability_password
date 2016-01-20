@@ -35,6 +35,17 @@ Teachers (and other users with editing rights) can add the "Password" availabili
 If you want to learn more about using availability plugins in Moodle, please see https://docs.moodle.org/en/Restrict_access.
 
 
+Protection course sections
+--------------------------
+
+At the moment, availability_password can't be used to protect course sections, it can only be applied to single activities / resources in a course.
+
+For those who are curious: There is a technical reason for this restriction. Most availability plugins use some external data to decide on the availability. This plugin uses data which is internal to the plugin itself. As availability data is stored in a serialised object in the course_modules table, it has no unique identifying ID of its own. Instead we use the course module id to be the link between the passwords already entered, the particular availability condition and the password being attempted (as appropriate).
+It would be possible to rework the plugin to work with sections as well by processing the availability information in the course_sections table as well, but, as that was not our goal, we did not attempt the (slightly tricky) reworking to allow this yet.
+
+If you really want availability_password to protect course sections, please let us know on https://github.com/moodleuulm/moodle-availability_password/issues or, ideally, submit a pull request on https://github.com/moodleuulm/moodle-availability_password/pull.
+
+
 Themes
 ------
 

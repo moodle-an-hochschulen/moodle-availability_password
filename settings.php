@@ -17,15 +17,15 @@
 /**
  * Availability password - Settings file
  *
- * @package     availabiliy
- * @subpackage  availabiliy_password
- * @copyright   2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    availability_password
+ * @copyright  2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-// Sadly, this is currently unsupported by Moodle - leaving in place in case it is in the future (see https://tracker.moodle.org/browse/MDL-49620)
+// Sadly, this is currently unsupported by Moodle - leaving in place in case it is in the future.
+// See https://tracker.moodle.org/browse/MDL-49620.
 
 $opts = [
     'db' => new lang_string('permanently', 'availability_password'),

@@ -17,10 +17,9 @@
 /**
  * Availability password - Condition (Check whether the user has entered the required password)
  *
- * @package     availabiliy
- * @subpackage  availabiliy_password
- * @copyright   2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    availability_password
+ * @copyright  2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace availability_password;
@@ -50,7 +49,8 @@ class condition extends \core_availability\condition {
     private function remember_session() {
         static $remember = null;
         if ($remember === null) {
-            // Note: global settings currently unsupported for availability conditions (see https://tracker.moodle.org/browse/MDL-49620)
+            // Note: global settings currently unsupported for availability conditions.
+            // See https://tracker.moodle.org/browse/MDL-49620.
             // For now, this will always return false, unless manually inserted into the database.
             $remember = get_config('availability_password', 'remember');
         }

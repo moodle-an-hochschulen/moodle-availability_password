@@ -17,16 +17,15 @@
 /**
  * Availability password - Version file
  *
- * @package     availabiliy
- * @subpackage  availabiliy_password
- * @copyright   2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    availability_password
+ * @copyright  2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'availability_password';
-$plugin->version = 2015111601;
-$plugin->release = '3.0 (Build: 2016012000)';
+$plugin->version = 2015111602;
+$plugin->release = '3.0 (Build: 2016012600)';
 $plugin->requires = 2015111600;
 $plugin->maturity = MATURITY_STABLE;

@@ -1,10 +1,9 @@
 /**
  * Availability password - YUI code for password form
  *
- * @package     availabiliy
- * @subpackage  availabiliy_password
- * @copyright   2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    availability_password
+ * @copyright  2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, University of Ulm <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /*global M*/
@@ -65,7 +64,7 @@ M.availability_password.form.getNode = function (json) {
 };
 
 /**
- * Called whenever M.core_availabiliy.form.update() is called - this is used to
+ * Called whenever M.core_availability.form.update() is called - this is used to
  * save the value from the form into the hidden availability data.
  *
  * @param value

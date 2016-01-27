@@ -26,11 +26,28 @@ namespace availability_password;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Code to control the settings form for password availability.
+ * @package availability_password
+ */
 class frontend extends \core_availability\frontend {
+    /**
+     * Returns a list of language strings to pass to the javascript.
+     * @return string[]
+     */
     protected function get_javascript_strings() {
         return ['title', 'error_setpassword'];
     }
 
+    /**
+     * Check if the condition can be added.
+     * Can only be added if this is not a section and if the user has the appropriate capability.
+     *
+     * @param \stdClass $course
+     * @param \cm_info $cm (optional)
+     * @param \section_info $section (optional)
+     * @return bool
+     */
     protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
         if ($section !== null) {
             // Can only be added to modules, not sections.

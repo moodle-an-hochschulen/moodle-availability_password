@@ -30,11 +30,30 @@ use core_availability\info_module;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Condition main class
+ * @package availability_password
+ */
 class condition extends \core_availability\condition {
 
+    /**
+     * The configured password for this condition.
+     *
+     * @var string
+     */
     protected $password = '';
+    /**
+     * Stores arrays of accepted passwords, indexed by cmid, for the current user.
+     * Loaded from database table availability_password_grant.
+     *
+     * @var null|string[][]
+     */
     protected static $passwordsaccepted = null;
 
+    /**
+     * condition constructor.
+     * @param object $structure the configured settings for this instance
+     */
     public function __construct($structure) {
         if (!empty($structure->password)) {
             $this->password = $structure->password;
@@ -166,7 +185,7 @@ class condition extends \core_availability\condition {
      * Check the given password against the condition's password and return true
      * if they match.
      *
-     * @param $password
+     * @param string $password
      * @return bool
      */
     private function check_password($password) {
@@ -177,7 +196,7 @@ class condition extends \core_availability\condition {
      * Record the fact that the given user has correctly entered the password.
      *
      * @param cm_info $cm
-     * @param $userid
+     * @param int $userid
      */
     private function save_available(cm_info $cm, $userid) {
         global $USER, $DB;
@@ -214,6 +233,13 @@ class condition extends \core_availability\condition {
         self::$passwordsaccepted = null; // Clear the static cache (just in case).
     }
 
+    /**
+     * Internal check to see if the password has been entered for this condition.
+     *
+     * @param cm_info $cm
+     * @param int $userid
+     * @return bool
+     */
     private function is_available_internal(cm_info $cm, $userid) {
         global $USER, $DB;
 
@@ -304,6 +330,8 @@ class condition extends \core_availability\condition {
     }
 
     /**
+     * Internal method to retrieve any and all password conditions for the given cm.
+     *
      * @param cm_info $cm
      * @return condition[]
      */

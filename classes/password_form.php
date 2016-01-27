@@ -28,7 +28,14 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir.'/formslib.php');
 
+/**
+ * Form definition for asking for the password to be entered.
+ * @package availability_password
+ */
 class password_form extends \moodleform {
+    /**
+     * Define the form contents.
+     */
     protected function definition() {
         $mform = $this->_form;
         /** @var \cm_info $cm */

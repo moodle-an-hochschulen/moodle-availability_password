@@ -13,6 +13,7 @@ This plugin requires Moodle 3.0+
 Changes
 -------
 
+* 2016-02-10 - Update README section about availability conditions settings pages
 * 2016-02-10 - Change plugin version and release scheme to the scheme promoted by moodle.org, no functionality change
 * 2016-01-01 - Initial version
 
@@ -54,9 +55,12 @@ At the moment, if a student has input the correct password for an activity / res
 
 However, there might be scenarios with even higher security demands which make it necessary that a student inputs the password every time he wants to re-access the activity / resource after a login and to have Moodle forget the fact that the user has input the correct password after he has logged out or his Moodle session has expired.
 
-availability_password also supports this use case. However, at the moment, Moodle core does not support settings pages for availability conditions (see https://tracker.moodle.org/browse/MDL-49620).
+availability_password also supports this use case. Go to Site administration -> Plugins -> Availability restrictions -> Restriction by password and change the "Remember password entered" setting to "Until the user logs out".
 
-So, until Moodle core supports this feature and if you really need to limit the memory of availability_password to a user's session, you have to set the plugin's configuration directly in the DB. This can be done with this SQL command:
+Note: 
+Moodle core did not support settings pages for availability conditions until 2.9.5 and 3.0.3 (see https://tracker.moodle.org/browse/MDL-49620).
+
+So, if your are running a legacy version of Moodle and you really need to limit the memory of availability_password to a user's session, you have to set the plugin's configuration directly in the DB. This can be done with this SQL command:
 
 INSERT INTO mdl_config_plugins ("plugin", "name", "value") VALUES ('availability_password', 'remember', 'session');
 

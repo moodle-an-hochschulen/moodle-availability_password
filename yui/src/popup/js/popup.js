@@ -21,8 +21,14 @@ M.availability_password.popup = {
     api: M.cfg.wwwroot + '/availability/condition/password/ajax.php',
 
     init: function () {
-        Y.one(SELECTORS.MAINREGION).delegate('click', this.showPopup, SELECTORS.PASSWORDLINK, this);
-        Y.one(SELECTORS.MAINREGION).delegate('click', this.checkShowPopup, SELECTORS.CMNAME, this);
+        var main;
+
+        main = Y.one(SELECTORS.MAINREGION);
+        if (!main) {
+            return;
+        }
+        main.delegate('click', this.showPopup, SELECTORS.PASSWORDLINK, this);
+        main.delegate('click', this.checkShowPopup, SELECTORS.CMNAME, this);
         this.initActivityLinks();
     },
 
@@ -154,14 +160,16 @@ M.availability_password.popup = {
             e.stopPropagation();
             this.showPopup({
                 currentTarget: pwLink,
-                preventDefault: function () { /* Do nothing */ },
-                stopPropagation: function () { /* Do nothing */ }
+                preventDefault: function () { /* Do nothing */
+                },
+                stopPropagation: function () { /* Do nothing */
+                }
             });
         }
     },
 
-    initActivityLinks: function() {
-        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME).each(function(activityName) {
+    initActivityLinks: function () {
+        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME).each(function (activityName) {
             var pwLink;
             if (activityName.ancestor('a')) {
                 return; // Already linked, nothing to do.

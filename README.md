@@ -7,12 +7,13 @@ Moodle availability plugin which lets users restrict resources and activities wi
 Requirements
 ------------
 
-This plugin requires Moodle 3.0+
+This plugin requires Moodle 3.1+
 
 
 Changes
 -------
 
+* 2016-07-19 - Check compatibility for Moodle 3.1, no functionality change
 * 2016-05-26 - Fix javascript error when viewing new assign grading page on Moodle 3.1 - Credits to Davo Smith
 * 2016-02-10 - Update README section about availability conditions settings pages
 * 2016-02-10 - Change plugin version and release scheme to the scheme promoted by moodle.org, no functionality change

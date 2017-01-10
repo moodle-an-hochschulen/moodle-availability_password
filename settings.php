@@ -24,13 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Sadly, this is currently unsupported by Moodle - leaving in place in case it is in the future.
-// See https://tracker.moodle.org/browse/MDL-49620.
-
-$opts = [
-    'db' => new lang_string('permanently', 'availability_password'),
-    'session' => new lang_string('untillogout', 'availability_password')
-];
-$setting = new admin_setting_configselect('availability_password/remember',
-                                          new lang_string('rememberpassword', 'availability_password'), '', 'db', $opts);
-$settings->add($setting);
+if ($ADMIN->fulltree) {
+    $opts = [
+        'db' => new lang_string('permanently', 'availability_password'),
+        'session' => new lang_string('untillogout', 'availability_password')
+    ];
+    $setting = new admin_setting_configselect('availability_password/remember', new lang_string('rememberpassword', 'availability_password'), '', 'db', $opts);
+    $settings->add($setting);
+}

@@ -10,16 +10,6 @@ Requirements
 This plugin requires Moodle 3.1+
 
 
-Changes
--------
-
-* 2016-07-19 - Check compatibility for Moodle 3.1, no functionality change
-* 2016-05-26 - Fix javascript error when viewing new assign grading page on Moodle 3.1 - Credits to Davo Smith
-* 2016-02-10 - Update README section about availability conditions settings pages
-* 2016-02-10 - Change plugin version and release scheme to the scheme promoted by moodle.org, no functionality change
-* 2016-01-01 - Initial version
-
-
 Installation
 ------------
 
@@ -59,7 +49,7 @@ However, there might be scenarios with even higher security demands which make i
 
 availability_password also supports this use case. Go to Site administration -> Plugins -> Availability restrictions -> Restriction by password and change the "Remember password entered" setting to "Until the user logs out".
 
-Note: 
+Note:
 Moodle core did not support settings pages for availability conditions until 2.9.5 and 3.0.3 (see https://tracker.moodle.org/browse/MDL-49620).
 
 So, if your are running a legacy version of Moodle and you really need to limit the memory of availability_password to a user's session, you have to set the plugin's configuration directly in the DB. This can be done with this SQL command:

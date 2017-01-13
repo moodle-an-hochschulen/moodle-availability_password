@@ -55,7 +55,7 @@ M.availability_password.form.getNode = function (json) {
     // Add event handlers (first time only).
     if (!M.availability_password.form.addedEvents) {
         M.availability_password.form.addedEvents = true;
-        root = Y.one('#fitem_id_availabilityconditionsjson');
+        root = Y.one('.availability-field');
         root.delegate('valuechange', function () {
             // Trigger the updating of the hidden availability data whenever the password field changes.
             M.core_availability.form.update();

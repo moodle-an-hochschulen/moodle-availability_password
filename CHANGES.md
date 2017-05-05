@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v3.2-r2
 
 * 2017-05-05 - Improve README.md
 

@@ -10,6 +10,12 @@ Requirements
 This plugin requires Moodle 3.2+
 
 
+Motivation for this plugin
+--------------------------
+
+There may come the day in a Moodle admin's life when a teacher requests to protect his course resources from unauthorized access even beyond the mechanisms which Moodle already provides and when this teacher comes up with the idea of adding a "password protection" to uploaded resources. If you had a discussion like this, this plugin is for you.
+
+
 Installation
 ------------
 
@@ -19,10 +25,10 @@ Install the plugin like any other plugin to folder
 See http://docs.moodle.org/en/Installing_plugins for details on installing Moodle plugins
 
 
-Usage
------
+Usage & Settings
+----------------
 
-After installing, availability_password is ready to use without the need for any configuration.
+After installing the plugin, it is ready to use without the need for any configuration.
 
 Teachers (and other users with editing rights) can add the "Password" availability condition to activities / resources in their courses. While adding the condition, they have to define the password which will be requested from students before they can access the activity / resource for the first time. For subsequent access, the availability plugin remembers that the student has already given the correct password once and does not bug him anymore.
 
@@ -69,41 +75,85 @@ Because of that and in contrast to other availability plugins, availability_pass
 By the way, if teacher A who has this capability adds the condition to an activity / resource and teacher B who has not the capability edits this activity / resource, B is able to see, edit and delete the condition of this particular activity / resource, but is still not allowed to add the condition to another activity / resource in the course.
 
 
-Themes
-------
+How this plugin works
+---------------------
 
-availability_password should work with all Bootstrap based Moodle themes.
-availability_password provides a fallback for browsers with JavaScript disabled.
+Normally, authentication plugins just use existing information from a course to decide about the access to an activity / resource. This plugin goes beyond this approach and inteligently adds a popup window between the course overview page view and the activity / resource view asking the user for a password.
 
 
-Further information
+Theme support
+-------------
+
+This plugin should work with all Bootstrap based Moodle themes.
+It has been developed on and tested with Moodle Core's Clean and Boost themes.
+
+This plugin also provides a fallback for browsers with JavaScript disabled.
+
+
+Plugin repositories
 -------------------
 
-availability_password is found in the Moodle Plugins repository: http://moodle.org/plugins/view/availability_password
+This plugin is published and regularly updated in the Moodle plugins repository:
+http://moodle.org/plugins/view/availability_password
 
-Report a bug or suggest an improvement: https://github.com/moodleuulm/moodle-availability_password/issues
+The latest development version can be found on Github:
+https://github.com/moodleuulm/moodle-availability_password
+
+
+Bug and problem reports / Support requests
+------------------------------------------
+
+This plugin is carefully developed and thoroughly tested, but bugs and problems can always appear.
+
+Please report bugs and problems on Github:
+https://github.com/moodleuulm/moodle-availability_password/issues
+
+We will do our best to solve your problems, but please note that due to limited resources we can't always provide per-case support.
+
+
+Feature proposals
+-----------------
+
+Due to limited resources, the functionality of this plugin is primarily implemented for our own local needs and published as-is to the community. We are aware that members of the community will have other needs and would love to see them solved by this plugin.
+
+Please issue feature proposals on Github:
+https://github.com/moodleuulm/moodle-availability_password/issues
+
+Please create pull requests on Github:
+https://github.com/moodleuulm/moodle-availability_password/pulls
+
+We are always interested to read about your feature proposals or even get a pull request from you, but please accept that we can handle your issues only as feature _proposals_ and not as feature _requests_.
 
 
 Moodle release support
 ----------------------
 
-Due to limited resources, availability_password is only maintained for the most recent major release of Moodle. However, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
+Due to limited resources, this plugin is only maintained for the most recent major release of Moodle. However, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
 
-There may be several weeks after a new major release of Moodle has been published until we can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that availability_password still works with a new major relase - please let us know on https://github.com/moodleuulm/moodle-availability_password/issues
+There may be several weeks after a new major release of Moodle has been published until we can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that this plugin still works with a new major relase - please let us know on Github.
+
+If you are running a legacy version of Moodle, but want or need to run the latest version of this plugin, you can get the latest version of the plugin, remove the line starting with $plugin->requires from version.php and use this latest plugin version then on your legacy Moodle. However, please note that you will run this setup completely at your own risk. We can't support this approach in any way and there is a undeniable risk for erratic behavior.
+
+
+Translating this plugin
+-----------------------
+
+This Moodle plugin is shipped with an english language pack only. All translations into other languages must be managed through AMOS (https://lang.moodle.org) by what they will become part of Moodle's official language pack.
+
+As the plugin creator, we manage the translation into german for our own local needs on AMOS. Please contribute your translation into all other languages in AMOS where they will be reviewed by the official language pack maintainers for Moodle.
 
 
 Right-to-left support
 ---------------------
 
 This plugin has not been tested with Moodle's support for right-to-left (RTL) languages.
-If you want to use this plugin with a RTL language and it doesn't work as-is, you are free to send us a pull request on
-github with modifications.
+If you want to use this plugin with a RTL language and it doesn't work as-is, you are free to send us a pull request on Github with modifications.
 
 
 PHP7 Support
 ------------
 
-Since Moodle 3.0, Moodle core basically supports PHP7. 
+Since Moodle 3.0, Moodle core basically supports PHP7.
 Please note that PHP7 support is on our roadmap for this plugin, but it has not yet been thoroughly tested for PHP7 support and we are still running it in production on PHP5.
 If you encounter any success or failure with this plugin and PHP7, please let us know.
 

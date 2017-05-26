@@ -4,6 +4,11 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2017-05-29 - Add Travis CI support
+
+
 ### v3.2-r2
 
 * 2017-05-05 - Improve README.md

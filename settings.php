@@ -29,6 +29,10 @@ if ($ADMIN->fulltree) {
         'db' => new lang_string('permanently', 'availability_password'),
         'session' => new lang_string('untillogout', 'availability_password')
     ];
-    $setting = new admin_setting_configselect('availability_password/remember', new lang_string('rememberpassword', 'availability_password'), '', 'db', $opts);
+    $setting = new admin_setting_configselect('availability_password/remember',
+            new lang_string('rememberpassword', 'availability_password'),
+            '',
+            'db',
+            $opts);
     $settings->add($setting);
 }

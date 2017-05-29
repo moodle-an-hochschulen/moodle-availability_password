@@ -8,7 +8,7 @@ YUI.add('moodle-availability_password-popup', function (Y, NAME) {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*global M*/
+/* global M */
 var SELECTORS = {
     MAINREGION: '#region-main',
     PASSWORDLINK: '.availability_password-popup',
@@ -22,7 +22,7 @@ M.availability_password = M.availability_password || {};
 M.availability_password.popup = {
     api: M.cfg.wwwroot + '/availability/condition/password/ajax.php',
 
-    init: function () {
+    init: function() {
         var main;
 
         main = Y.one(SELECTORS.MAINREGION);
@@ -34,7 +34,7 @@ M.availability_password.popup = {
         this.initActivityLinks();
     },
 
-    showPopup: function (e) {
+    showPopup: function(e) {
         var content, cmname, panel, url, cmid, cmcontainer, cmnameholder, submit;
 
         e.preventDefault();
@@ -72,13 +72,13 @@ M.availability_password.popup = {
             width: '350px',
             modal: true
         }).show();
-        panel.after('visibleChange', function () {
+        panel.after('visibleChange', function() {
             if (!panel.get('visible')) {
                 panel.destroy(true);
             }
         });
 
-        submit = function (e) {
+        submit = function(e) {
             var data, password;
             e.preventDefault();
 
@@ -97,7 +97,7 @@ M.availability_password.popup = {
                 data: data,
                 on: {
                     // Handle the response from the server.
-                    success: function (ignore, resp) {
+                    success: function(ignore, resp) {
                         var details;
                         try {
                             details = JSON.parse(resp.responseText);
@@ -133,7 +133,7 @@ M.availability_password.popup = {
         panel.addButton({
             label: M.util.get_string('cancel', 'core'),
             section: Y.WidgetStdMod.FOOTER,
-            action: function (e) {
+            action: function(e) {
                 e.preventDefault();
                 panel.hide();
             }
@@ -147,7 +147,7 @@ M.availability_password.popup = {
      * If so, popup the relevant password request, when the activity name is clicked on.
      * @param e
      */
-    checkShowPopup: function (e) {
+    checkShowPopup: function(e) {
         var activityName, pwLink;
 
         activityName = e.currentTarget;
@@ -162,16 +162,16 @@ M.availability_password.popup = {
             e.stopPropagation();
             this.showPopup({
                 currentTarget: pwLink,
-                preventDefault: function () { /* Do nothing */
+                preventDefault: function() { /* Do nothing */
                 },
-                stopPropagation: function () { /* Do nothing */
+                stopPropagation: function() { /* Do nothing */
                 }
             });
         }
     },
 
-    initActivityLinks: function () {
-        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME).each(function (activityName) {
+    initActivityLinks: function() {
+        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME).each(function(activityName) {
             var pwLink;
             if (activityName.ancestor('a')) {
                 return; // Already linked, nothing to do.

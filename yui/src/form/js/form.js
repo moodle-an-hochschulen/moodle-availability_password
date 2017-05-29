@@ -6,7 +6,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/*global M*/
+/* global M */
 /**
  * JavaScript for form editing profile conditions.
  *
@@ -25,13 +25,13 @@ M.availability_password.form = Y.Object(M.core_availability.plugin);
  *
  * @method initInner
  */
-M.availability_password.form.initInner = function () {
+M.availability_password.form.initInner = function() {
     // Does nothing.
 };
 
 M.availability_password.form.instId = 1;
 
-M.availability_password.form.getNode = function (json) {
+M.availability_password.form.getNode = function(json) {
     "use strict";
     var html, node, root, id;
 
@@ -54,7 +54,7 @@ M.availability_password.form.getNode = function (json) {
     if (!M.availability_password.form.addedEvents) {
         M.availability_password.form.addedEvents = true;
         root = Y.one('.availability-field');
-        root.delegate('valuechange', function () {
+        root.delegate('valuechange', function() {
             // Trigger the updating of the hidden availability data whenever the password field changes.
             M.core_availability.form.update();
         }, '.availability_password input[name=password]');
@@ -70,14 +70,14 @@ M.availability_password.form.getNode = function (json) {
  * @param value
  * @param node
  */
-M.availability_password.form.fillValue = function (value, node) {
+M.availability_password.form.fillValue = function(value, node) {
     "use strict";
 
     // Store the password.
     value.password = node.one('input[name=password]').get('value').trim();
 };
 
-M.availability_password.form.fillErrors = function (errors, node) {
+M.availability_password.form.fillErrors = function(errors, node) {
     "use strict";
     var value = {};
     this.fillValue(value, node);

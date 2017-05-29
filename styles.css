@@ -1,7 +1,7 @@
 .path-availability-condition-password .error,
 #availability_password_error {
-    font-weight: bold;
     color: red;
+    font-weight: bold;
 }
 
 .availability_password_intro {

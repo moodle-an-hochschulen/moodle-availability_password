@@ -24,7 +24,7 @@
 
 define('AJAX_SCRIPT', true);
 
-require_once(dirname(__FILE__).'/../../../config.php');
+require(__DIR__ . '/../../../config.php');
 global $PAGE;
 
 $cmid = required_param('id', PARAM_INT);

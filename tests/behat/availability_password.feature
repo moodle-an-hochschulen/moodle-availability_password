@@ -18,7 +18,7 @@ Feature: When a teacher configures a password restriction a student cannot acces
       | enableavailability | 1 |
     And I log out
     And I log in as "teacher1"
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     And I turn editing mode on
     And I add a "page" to section "1"
     And I set the following fields to these values:
@@ -34,7 +34,7 @@ Feature: When a teacher configures a password restriction a student cannot acces
 
   Scenario: A student attempts to enter a password to access the page activity
     When I log in as "student1"
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
     Then I should see "Restricted page"
     And I should see "Not available unless: You enter the correct password"
 

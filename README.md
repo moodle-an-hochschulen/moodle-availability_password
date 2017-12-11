@@ -9,7 +9,7 @@ Moodle availability plugin which lets users restrict resources and activities wi
 Requirements
 ------------
 
-This plugin requires Moodle 3.3+
+This plugin requires Moodle 3.4+
 
 
 Motivation for this plugin
@@ -155,8 +155,7 @@ If you want to use this plugin with a RTL language and it doesn't work as-is, yo
 PHP7 Support
 ------------
 
-Since Moodle 3.0, Moodle core basically supports PHP7. This plugin has been thoroughly tested for PHP7 support.
-If you encounter any success or failure with this plugin and the older PHP5 version, please let us know.
+Since Moodle 3.4 core, PHP7 is mandatory. We are developing and testing this plugin for PHP7 only.
 
 
 Copyright

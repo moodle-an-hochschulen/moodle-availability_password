@@ -4,6 +4,10 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2017-12-11 - Check compatibility for Moodle 3.4, no functionality change.
+
 ### v3.3-r1
 
 * 2017-12-04 - Fixed compatibility changes for Behat tests.

@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v3.4-r2
 
 * 2018-05-16 - Improvement: Remove remembered passwords also when a course or user is deleted.
 * 2018-05-16 - Implement Privacy API.

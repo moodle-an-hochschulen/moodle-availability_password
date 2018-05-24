@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2018-05-16 - Improvement: Remove remembered passwords also when a course or user is deleted.
 * 2018-05-16 - Implement Privacy API.
 
 ### v3.4-r1

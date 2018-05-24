@@ -295,6 +295,26 @@ class condition extends \core_availability\condition {
     }
 
     /**
+     * Tidy up the password accepted records when the course is deleted.
+     * @param \core\event\course_deleted $event
+     */
+    public static function course_deleted(\core\event\course_deleted $event) {
+        global $DB;
+        $courseid = $event->contextinstanceid;
+        $DB->delete_records('availability_password_grant', array('courseid' => $courseid));
+    }
+
+    /**
+     * Tidy up the password accepted records when the user is deleted.
+     * @param \core\event\user_deleted $event
+     */
+    public static function user_deleted(\core\event\user_deleted $event) {
+        global $DB;
+        $userid = $event->contextinstanceid;
+        $DB->delete_records('availability_password_grant', array('userid' => $userid));
+    }
+
+    /**
      * Checks the given password against the restrictions set for the given cm.
      * If the password matches, then that restriction is marked as being met.
      *

@@ -30,6 +30,7 @@ $string['enterpasswordfor'] = 'Enter password for {$a}';
 $string['error_setpassword'] = 'You must specify a password';
 $string['password:addinstance'] = 'Add password conditions to activities';
 $string['passwordintro'] = 'Access to <em>{$a}</em> is protected with a password.<br />If you do not know the password, please ask your teacher.';
+$string['passwordprotection'] = 'Password protection';
 $string['permanently'] = 'Permanently';
 $string['pluginname'] = 'Restriction by password';
 $string['privacy:metadata:availability_password_grant'] = 'Information about all users who have correctly entered the password for a given activity.';

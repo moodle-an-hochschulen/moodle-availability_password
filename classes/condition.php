@@ -154,7 +154,8 @@ class condition extends \core_availability\condition {
             $str = \html_writer::link($url, $str, array('class' => 'availability_password-popup'));
 
             if (!$jsadded) {
-                $PAGE->requires->strings_for_js(['enterpassword', 'wrongpassword', 'passwordintro'], 'availability_password');
+                $PAGE->requires->strings_for_js(['enterpassword', 'wrongpassword', 'passwordintro', 'passwordprotection'],
+                    'availability_password');
                 $PAGE->requires->strings_for_js(['submit', 'cancel'], 'core');
 
                 $jsadded = true;

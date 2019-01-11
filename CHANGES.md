@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2019-01-11 - Added title to dialogue window.
 * 2019-01-10 - Check compatibility for Moodle 3.6, no functionality change.
 * 2018-12-05 - Changed travis.yml due to upstream changes.
 

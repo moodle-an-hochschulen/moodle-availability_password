@@ -68,6 +68,7 @@ M.availability_password.popup = {
         content += '<input type="password" id="availability_password">';
 
         panel = new M.core.dialogue({
+            headerContent: M.util.get_string('passwordprotection', 'availability_password', cmname),
             bodyContent: content,
             width: '350px',
             modal: true

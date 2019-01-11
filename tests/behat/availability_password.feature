@@ -40,17 +40,17 @@ Feature: When a teacher configures a password restriction a student cannot acces
 
     When I click on "Restricted page" "text"
     Then I should not see "Some page content"
-    And I press "Cancel"
+    And I click on "Cancel" "button" in the "Password protection" "dialogue"
     And I should see "Not available unless: You enter the correct password"
 
     When I click on "You enter the correct password" "text"
     And I set the field "availability_password" to "Guess 1"
     And I press "Submit"
     Then I should see "Password incorrect"
-    And I press "Cancel"
+    And I click on "Cancel" "button" in the "Password protection" "dialogue"
     And I click on "Restricted page" "text"
     And I should not see "Some page content"
-    And I press "Cancel"
+    And I click on "Cancel" "button" in the "Password protection" "dialogue"
     And I should see "Not available unless: You enter the correct password"
 
     When I click on "You enter the correct password" "text"

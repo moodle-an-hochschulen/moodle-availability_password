@@ -13,7 +13,8 @@ var SELECTORS = {
     PASSWORDFIELD: '#availability_password_input',
     ERRORMESSAGE: '#availability_password_error',
     CMCONTAINER: '.activity',
-    CMNAME: '.instancename'
+    CMNAME: '.instancename',
+    CMICON: '.activityicon'
 };
 
 M.availability_password = M.availability_password || {};
@@ -29,6 +30,7 @@ M.availability_password.popup = {
         }
         main.delegate('click', this.showPopup, SELECTORS.PASSWORDLINK, this);
         main.delegate('click', this.checkShowPopup, SELECTORS.CMNAME, this);
+        main.delegate('click', this.checkShowPopup, SELECTORS.CMICON, this);
         this.initActivityLinks();
     },
 
@@ -147,7 +149,7 @@ M.availability_password.popup = {
 
     /**
      * Check to see if the activity is unavailable, but has an associated password popup.
-     * If so, popup the relevant password request, when the activity name is clicked on.
+     * If so, popup the relevant password request, when the activity name or the activity icon is clicked on.
      * @param e
      */
     checkShowPopup: function(e) {
@@ -174,7 +176,7 @@ M.availability_password.popup = {
     },
 
     initActivityLinks: function() {
-        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME).each(function(activityName) {
+        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME + ', ' + SELECTORS.CMICON).each(function(activityName) {
             var pwLink;
             if (activityName.ancestor('a')) {
                 return; // Already linked, nothing to do.

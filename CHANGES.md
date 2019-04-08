@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2019-04-08 - Add click handler to the activity icon, not only to the activity title.
 * 2019-04-08 - Adopt some bootstrap styles for the password modal.
 * 2019-04-08 - Fix layout of condition form in Boost.
 * 2019-04-08 - Add new privacy API functions needed for Moodle 3.6 - Credits to Davo Smith.

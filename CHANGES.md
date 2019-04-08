@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v3.6-r1
 
 * 2019-04-08 - Add click handler to the activity icon, not only to the activity title.
 * 2019-04-08 - Adopt some bootstrap styles for the password modal.

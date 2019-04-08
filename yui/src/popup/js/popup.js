@@ -10,7 +10,7 @@
 var SELECTORS = {
     MAINREGION: '#region-main',
     PASSWORDLINK: '.availability_password-popup',
-    PASSWORDFIELD: '#availability_password',
+    PASSWORDFIELD: '#availability_password_input',
     ERRORMESSAGE: '#availability_password_error',
     CMCONTAINER: '.activity',
     CMNAME: '.instancename'
@@ -58,12 +58,14 @@ M.availability_password.popup = {
         }
 
         content = '';
-        content += '<span class="availability_password_intro">' +
-            M.util.get_string('passwordintro', 'availability_password', cmname) + '</span>';
-        content += '<label for="availability_password">' + M.util.get_string('enterpassword', 'availability_password') +
-            '</label>';
-        content += '<span id="availability_password_error"></span>';
-        content += '<input type="password" id="availability_password">';
+        content += '<div id="availability_password_intro">' +
+            M.util.get_string('passwordintro', 'availability_password', cmname) + '</div>';
+        content += '<div class="form-group">';
+        content += '<label class="form-control-label" for="availability_password_input">' +
+            M.util.get_string('enterpassword', 'availability_password') + '</label>';
+        content += '<input id="availability_password_input" class="form-control" type="password" />';
+        content += '<div id="availability_password_error" class="invalid-feedback" style="display: none; "></div>';
+        content += '</div>';
 
         panel = new M.core.dialogue({
             headerContent: M.util.get_string('passwordprotection', 'availability_password', cmname),
@@ -116,6 +118,8 @@ M.availability_password.popup = {
                             }
                         } else {
                             Y.one(SELECTORS.ERRORMESSAGE).setHTML(M.util.get_string('wrongpassword', 'availability_password'));
+                            Y.one(SELECTORS.ERRORMESSAGE).show();
+                            Y.one(SELECTORS.PASSWORDFIELD).addClass('is-invalid');
                             Y.one(SELECTORS.PASSWORDFIELD).focus();
                         }
                     }

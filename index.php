@@ -58,7 +58,7 @@ $PAGE->set_heading($title);
 
 echo $OUTPUT->header();
 if ($error) {
-    echo html_writer::div($error, 'error');
+    echo html_writer::div($error, 'alert alert-danger');
 }
 $form->display();
 echo $OUTPUT->footer();

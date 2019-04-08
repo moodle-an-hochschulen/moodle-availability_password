@@ -44,7 +44,7 @@ Feature: When a teacher configures a password restriction a student cannot acces
     And I should see "Not available unless: You enter the correct password"
 
     When I click on "You enter the correct password" "text"
-    And I set the field "availability_password" to "Guess 1"
+    And I set the field "availability_password_input" to "Guess 1"
     And I press "Submit"
     Then I should see "Password incorrect"
     And I click on "Cancel" "button" in the "Password protection" "dialogue"
@@ -54,7 +54,7 @@ Feature: When a teacher configures a password restriction a student cannot acces
     And I should see "Not available unless: You enter the correct password"
 
     When I click on "You enter the correct password" "text"
-    And I set the field "availability_password" to "Testing123"
+    And I set the field "availability_password_input" to "Testing123"
     And I press "Submit"
     And I wait to be redirected
     Then I should see "Some page content"

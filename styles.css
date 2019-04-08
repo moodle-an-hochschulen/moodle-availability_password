@@ -1,10 +1,5 @@
-.path-availability-condition-password .error,
-#availability_password_error {
-    color: red;
-    font-weight: bold;
-}
-
-.availability_password_intro {
-    display: block;
-    font-size: 90%;
+#availability_password_intro {
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
 }

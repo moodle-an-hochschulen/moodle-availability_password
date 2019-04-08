@@ -40,10 +40,10 @@ M.availability_password.form.getNode = function(json) {
 
     // Create HTML structure.
     html = '';
-    html += '<span class="availability-group"><label for="' + id + '">' +
-        M.util.get_string('title', 'availability_password') + ' </label>';
+    html += '<span class="availability-group"><label for="' + id + '"><span class="p-r-1">' +
+        M.util.get_string('title', 'availability_password') + ' </span></label>';
     html += '<input type="text" name="password" id="' + id + '">';
-    node = Y.Node.create('<span>' + html + '</span>');
+    node = Y.Node.create('<span class="form-inline">' + html + '</span>');
 
     // Set initial values, if specified.
     if (json.password !== undefined) {

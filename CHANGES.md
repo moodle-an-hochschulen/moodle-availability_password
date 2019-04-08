@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2019-04-08 - Fix layout of condition form in Boost.
 * 2019-04-08 - Add new privacy API functions needed for Moodle 3.6 - Credits to Davo Smith.
 * 2019-01-11 - Fixed Behat tests.
 * 2019-01-11 - Added title to dialogue window.

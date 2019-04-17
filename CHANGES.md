@@ -4,6 +4,10 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2019-04-17 - Bugfix: Click handler on activity icon broke YUI script execution at least on dashboard when our plugin block_course_overview_campus was placed there
+
 ### v3.6-r1
 
 * 2019-04-08 - Add click handler to the activity icon, not only to the activity title.

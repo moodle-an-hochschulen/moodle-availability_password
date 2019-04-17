@@ -10,7 +10,7 @@ YUI.add('moodle-availability_password-popup', function (Y, NAME) {
 
 /* global M */
 var SELECTORS = {
-    MAINREGION: '#region-main',
+    MAINREGION: '.path-course-view #region-main',
     PASSWORDLINK: '.availability_password-popup',
     PASSWORDFIELD: '#availability_password_input',
     ERRORMESSAGE: '#availability_password_error',

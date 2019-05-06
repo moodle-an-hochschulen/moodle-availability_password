@@ -26,6 +26,13 @@ use availability_password\privacy\provider;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Class availability_password_privacy_test.
+ *
+ * @package    availability_password
+ * @copyright  2019 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class availability_password_privacy_test extends \core_privacy\tests\provider_testcase {
     public function setUp() {
         $this->resetAfterTest();

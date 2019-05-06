@@ -8,7 +8,7 @@
 
 /* global M */
 var SELECTORS = {
-    MAINREGION: '.path-course-view #region-main',
+    MAINREGION: '#region-main',
     PASSWORDLINK: '.availability_password-popup',
     PASSWORDFIELD: '#availability_password_input',
     ERRORMESSAGE: '#availability_password_error',
@@ -29,8 +29,8 @@ M.availability_password.popup = {
             return;
         }
         main.delegate('click', this.showPopup, SELECTORS.PASSWORDLINK, this);
-        main.delegate('click', this.checkShowPopup, SELECTORS.CMNAME, this);
-        main.delegate('click', this.checkShowPopup, SELECTORS.CMICON, this);
+        main.delegate('click', this.checkShowPopup, SELECTORS.CMCONTAINER + ' ' + SELECTORS.CMNAME, this);
+        main.delegate('click', this.checkShowPopup, SELECTORS.CMCONTAINER + ' ' + SELECTORS.CMICON, this);
         this.initActivityLinks();
     },
 
@@ -176,7 +176,8 @@ M.availability_password.popup = {
     },
 
     initActivityLinks: function() {
-        Y.one(SELECTORS.MAINREGION).all(SELECTORS.CMNAME + ', ' + SELECTORS.CMICON).each(function(activityName) {
+        var nameoricon = SELECTORS.CMCONTAINER + ' ' + SELECTORS.CMNAME + ', ' + SELECTORS.CMCONTAINER + ' ' + SELECTORS.CMICON;
+        Y.one(SELECTORS.MAINREGION).all(nameoricon).each(function(activityName) {
             var pwLink;
             if (activityName.ancestor('a')) {
                 return; // Already linked, nothing to do.

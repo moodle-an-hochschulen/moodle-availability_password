@@ -34,10 +34,20 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class availability_password_privacy_test extends \core_privacy\tests\provider_testcase {
+    /**
+     * Set up the unit tests.
+     */
     public function setUp() {
         $this->resetAfterTest();
     }
 
+    /**
+     * Create courses, users and pages.
+     * Create 'password entered' records for some of the users.
+     * @return array [$array_of_page_records, $array_of_user_records]
+     * @throws coding_exception
+     * @throws dml_exception
+     */
     private function setup_data() {
         global $DB;
         $gen = self::getDataGenerator();
@@ -93,6 +103,11 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
         return [[$p1, $p2, $p3, $p4], [$u1, $u2, $u3]];
     }
 
+    /**
+     * Given a page instance, return the associated userlist (using the privacy API).
+     * @param $page
+     * @return \core_privacy\local\request\userlist
+     */
     private function get_users_on_page($page) {
         $ctx = context_module::instance($page->cmid);
         $userlist = new \core_privacy\local\request\userlist($ctx, 'availability_password');
@@ -100,6 +115,9 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
         return $userlist;
     }
 
+    /**
+     * Test get_users_in_context() function returns the expected users for each page.
+     */
     public function test_get_users_in_context() {
         list($pages, ) = $this->setup_data();
         list($p1, $p2, $p3, $p4) = $pages;
@@ -110,6 +128,10 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
         $this->assertCount(0, $this->get_users_on_page($p4));
     }
 
+    /**
+     * Test delete_data_for_users() removes the expected data from the specified users (in the specified context) and
+     * no other data is affected.
+     */
     public function test_delete_data_for_users() {
         list($pages, $users) = $this->setup_data();
         list($p1, $p2, $p3, $p4) = $pages;

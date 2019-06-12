@@ -9,7 +9,7 @@ Moodle availability plugin which lets users restrict resources and activities wi
 Requirements
 ------------
 
-This plugin requires Moodle 3.6+
+This plugin requires Moodle 3.7+
 
 
 Motivation for this plugin
@@ -86,9 +86,8 @@ Normally, authentication plugins just use existing information from a course to 
 Theme support
 -------------
 
-This plugin should work with all Bootstrap based Moodle themes.
-It has been developed on and tested only with Moodle Core's Boost theme.
-While this plugin should also work with Moodle Core's legacy Clean theme or third party themes, we can't support any other theme than Boost.
+This plugin is developed and tested on Moodle Core's Boost theme.
+It should also work with Boost child themes, including Moodle Core's Classic theme. However, we can't support any other theme than Boost.
 
 This plugin also provides a fallback for browsers with JavaScript disabled.
 
@@ -169,6 +168,5 @@ www.synergy-learning.com
 on behalf of
 
 Ulm University
-kiz - Media Department
-Team Web & Teaching Support
+Communication and Information Centre (kiz)
 Alexander Bias

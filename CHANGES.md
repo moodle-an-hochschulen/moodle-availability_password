@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2019-06-14 - Added more behat tests to cover all options for setting remember.
 * 2019-06-14 - Make codechecker happier.
 * 2019-06-12 - Prepare compatibility for Moodle 3.7.
 

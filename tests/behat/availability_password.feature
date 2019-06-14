@@ -58,3 +58,29 @@ Feature: When a teacher configures a password restriction a student cannot acces
     And I press "Submit"
     And I wait to be redirected
     Then I should see "Some page content"
+
+  Scenario: A student attempts to enter a password to access the page activity with setting availability_password | remember set to "Until the user logs out"
+    When I log in as "admin"
+    And I navigate to "Plugins > Availability restrictions > Restriction by password" in site administration
+    And I select "Until the user logs out" from the "Remember password entered" singleselect
+    And I press "Save"
+    And I log out
+
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    Then I should see "Restricted page"
+    And I should see "Not available unless: You enter the correct password"
+
+    When I click on "You enter the correct password" "text"
+    And I set the field "availability_password_input" to "Testing123"
+    And I press "Submit"
+    And I wait to be redirected
+    Then I should see "Some page content"
+    And I log out
+
+    When I log in as "student1"
+    And I am on "Course 1" course homepage
+    Then I should see "Restricted page"
+    And I should see "Not available unless: You enter the correct password"
+    And I click on "Restricted page" "text"
+    Then I should see "You enter the correct password"

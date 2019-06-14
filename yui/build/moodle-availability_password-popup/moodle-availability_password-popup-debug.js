@@ -152,7 +152,7 @@ M.availability_password.popup = {
     /**
      * Check to see if the activity is unavailable, but has an associated password popup.
      * If so, popup the relevant password request, when the activity name or the activity icon is clicked on.
-     * @param e
+     * @param {Object} e The event object.
      */
     checkShowPopup: function(e) {
         var activityName, pwLink;

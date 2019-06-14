@@ -16,7 +16,7 @@ YUI.add('moodle-availability_password-form', function (Y, NAME) {
  */
 M.availability_password = M.availability_password || {};
 
-/**
+/*
  * @class M.availability_password.form
  * @extends M.core_availability.plugin
  */
@@ -69,8 +69,8 @@ M.availability_password.form.getNode = function(json) {
  * Called whenever M.core_availability.form.update() is called - this is used to
  * save the value from the form into the hidden availability data.
  *
- * @param value
- * @param node
+ * @param {Object} value
+ * @param {Object} node
  */
 M.availability_password.form.fillValue = function(value, node) {
     "use strict";

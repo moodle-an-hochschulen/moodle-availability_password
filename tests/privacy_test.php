@@ -105,7 +105,7 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
 
     /**
      * Given a page instance, return the associated userlist (using the privacy API).
-     * @param $page
+     * @param object $page
      * @return \core_privacy\local\request\userlist
      */
     private function get_users_on_page($page) {

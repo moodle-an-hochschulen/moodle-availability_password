@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v3.7-r1
 
 * 2019-06-14 - Added more behat tests to cover all options for setting remember.
 * 2019-06-14 - Make codechecker happier.

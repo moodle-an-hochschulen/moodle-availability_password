@@ -60,11 +60,9 @@ Feature: When a teacher configures a password restriction a student cannot acces
     Then I should see "Some page content"
 
   Scenario: A student attempts to enter a password to access the page activity with setting availability_password | remember set to "Until the user logs out"
-    When I log in as "admin"
-    And I navigate to "Plugins > Availability restrictions > Restriction by password" in site administration
-    And I select "Until the user logs out" from the "Remember password entered" singleselect
-    And I press "Save"
-    And I log out
+    Given the following config values are set as admin:
+      | config   | value     | plugin                |
+      | remember | session   | availability_password |
 
     When I log in as "student1"
     And I am on "Course 1" course homepage

@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v3.9-r1
 
 * 2020-07-15 - Prepare compatibility for Moodle 3.9.
 

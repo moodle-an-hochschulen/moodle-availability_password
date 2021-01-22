@@ -37,7 +37,7 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
     /**
      * Set up the unit tests.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->resetAfterTest();
     }
 

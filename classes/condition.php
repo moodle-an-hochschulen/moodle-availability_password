@@ -181,7 +181,7 @@ class condition extends \core_availability\condition {
      * @return \stdClass Structure object (ready to be made into JSON format)
      */
     public function save() {
-        return (object) ['password' => $this->password];
+        return (object) ['type' => 'password', 'password' => $this->password];
     }
 
     /**

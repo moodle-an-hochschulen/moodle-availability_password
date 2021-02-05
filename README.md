@@ -1,7 +1,7 @@
 moodle-availability_password
 ============================
 
-[![Build Status](https://travis-ci.com/moodleuulm/moodle-availability_password.svg?branch=master)](https://travis-ci.com/moodleuulm/moodle-availability_password)
+[![Moodle Plugin CI](https://github.com/moodleuulm/moodle-availability_password/workflows/Moodle%20Plugin%20CI/badge.svg?branch=master)](https://github.com/moodleuulm/moodle-availability_password/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amaster)
 
 Moodle availability plugin which lets users restrict resources and activities with password access
 

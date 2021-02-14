@@ -8,13 +8,12 @@ YUI.add('moodle-availability_password-form', function (Y, NAME) {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/* global M */
 /**
  * JavaScript for form editing profile conditions.
  *
  * @module moodle-availability_password-form
  */
-M.availability_password = M.availability_password || {};
+M.availability_password = M.availability_password || {}; // eslint-disable-line camelcase
 
 /*
  * @class M.availability_password.form

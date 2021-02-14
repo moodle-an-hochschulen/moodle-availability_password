@@ -8,7 +8,6 @@ YUI.add('moodle-availability_password-popup', function (Y, NAME) {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/* global M */
 var SELECTORS = {
     MAINREGION: '#region-main',
     PASSWORDLINK: '.availability_password-popup',
@@ -19,7 +18,7 @@ var SELECTORS = {
     CMICON: '.activityicon'
 };
 
-M.availability_password = M.availability_password || {};
+M.availability_password = M.availability_password || {}; // eslint-disable-line camelcase
 M.availability_password.popup = {
     api: M.cfg.wwwroot + '/availability/condition/password/ajax.php',
 
@@ -107,11 +106,11 @@ M.availability_password.popup = {
                         try {
                             details = JSON.parse(resp.responseText);
                         } catch (ex) {
-                            window.alert('Communication error');
+                            window.alert('Communication error'); // eslint-disable-line no-alert
                             return;
                         }
                         if (details.error) {
-                            window.alert(details.error);
+                            window.alert(details.error); // eslint-disable-line no-alert
                             return;
                         }
                         if (details.success) {

@@ -3,7 +3,7 @@ YUI.add('moodle-availability_password-form', function (Y, NAME) {
 /**
  * Availability password - YUI code for password form
  *
- * @package    availability_password
+ * @module     moodle-availability_password-form
  * @copyright  2016 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

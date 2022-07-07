@@ -1,7 +1,7 @@
 moodle-availability_password
 ============================
 
-[![Moodle Plugin CI](https://github.com/moodleuulm/moodle-availability_password/workflows/Moodle%20Plugin%20CI/badge.svg?branch=MOODLE_311_STABLE)](https://github.com/moodleuulm/moodle-availability_password/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3AMOODLE_311_STABLE)
+[![Moodle Plugin CI](https://github.com/moodle-an-hochschulen/moodle-availability_password/workflows/Moodle%20Plugin%20CI/badge.svg?branch=MOODLE_311_STABLE)](https://github.com/moodle-an-hochschulen/moodle-availability_password/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3AMOODLE_311_STABLE)
 
 Moodle availability plugin which lets users restrict resources and activities with password access
 
@@ -45,7 +45,7 @@ At the moment, availability_password can't be used to protect course sections, i
 For those who are curious: There is a technical reason for this restriction. Most availability plugins use some external data to decide on the availability. This plugin uses data which is internal to the plugin itself. As availability data is stored in a serialised object in the course_modules table, it has no unique identifying ID of its own. Instead we use the course module id to be the link between the passwords already entered, the particular availability condition and the password being attempted (as appropriate).
 It would be possible to rework the plugin to work with sections as well by processing the availability information in the course_sections table as well, but, as that was not our goal, we did not attempt the (slightly tricky) reworking to allow this yet.
 
-If you really want availability_password to protect course sections, please let us know on https://github.com/moodleuulm/moodle-availability_password/issues or, ideally, submit a pull request on https://github.com/moodleuulm/moodle-availability_password/pull.
+If you really want availability_password to protect course sections, please let us know on https://github.com/moodle-an-hochschulen/moodle-availability_password/issues or, ideally, submit a pull request on https://github.com/moodle-an-hochschulen/moodle-availability_password/pull.
 
 
 Granting only temporary access
@@ -89,8 +89,6 @@ Theme support
 This plugin is developed and tested on Moodle Core's Boost theme.
 It should also work with Boost child themes, including Moodle Core's Classic theme. However, we can't support any other theme than Boost.
 
-This plugin also provides a fallback for browsers with JavaScript disabled.
-
 
 Plugin repositories
 -------------------
@@ -99,7 +97,7 @@ This plugin is published and regularly updated in the Moodle plugins repository:
 http://moodle.org/plugins/view/availability_password
 
 The latest development version can be found on Github:
-https://github.com/moodleuulm/moodle-availability_password
+https://github.com/moodle-an-hochschulen/moodle-availability_password
 
 
 Bug and problem reports / Support requests
@@ -108,7 +106,7 @@ Bug and problem reports / Support requests
 This plugin is carefully developed and thoroughly tested, but bugs and problems can always appear.
 
 Please report bugs and problems on Github:
-https://github.com/moodleuulm/moodle-availability_password/issues
+https://github.com/moodle-an-hochschulen/moodle-availability_password/issues
 
 We will do our best to solve your problems, but please note that due to limited resources we can't always provide per-case support.
 
@@ -119,10 +117,10 @@ Feature proposals
 Due to limited resources, the functionality of this plugin is primarily implemented for our own local needs and published as-is to the community. We are aware that members of the community will have other needs and would love to see them solved by this plugin.
 
 Please issue feature proposals on Github:
-https://github.com/moodleuulm/moodle-availability_password/issues
+https://github.com/moodle-an-hochschulen/moodle-availability_password/issues
 
 Please create pull requests on Github:
-https://github.com/moodleuulm/moodle-availability_password/pulls
+https://github.com/moodle-an-hochschulen/moodle-availability_password/pulls
 
 We are always interested to read about your feature proposals or even get a pull request from you, but please accept that we can handle your issues only as feature _proposals_ and not as feature _requests_.
 
@@ -154,32 +152,40 @@ This plugin has not been tested with Moodle's support for right-to-left (RTL) la
 If you want to use this plugin with a RTL language and it doesn't work as-is, you are free to send us a pull request on Github with modifications.
 
 
-PHP7 Support
-------------
-
-Since Moodle 3.4 core, PHP7 is mandatory. We are developing and testing this plugin for PHP7 only.
-
-
 Maintainers
 -----------
 
-Ulm University\
-Communication and Information Centre (kiz)\
-Alexander Bias
-
-Bern University of Applied Sciences\
-Luca Bösch
+The plugin is maintained by\
+Moodle an Hochschulen e.V.
 
 
 Copyright
 ---------
 
+The copyright of this plugin is held by\
+Moodle an Hochschulen e.V.
+
+Individual copyrights of individual developers are tracked in PHPDoc comments and Git commits.
+
+
+Initial copyright
+-----------------
+
+Initial copyright
+-----------------
+
+This plugin was initially built by\
 Davo Smith\
 Synergy Learning UK\
 www.synergy-learning.com
 
-on behalf of
+on behalf of\
+Ulm University\
+Communication and Information Centre (kiz)
 
+and maintained and published by\
 Ulm University\
 Communication and Information Centre (kiz)\
 Alexander Bias
+
+It was contributed to the Moodle an Hochschulen e.V. plugin catalogue in 2022.

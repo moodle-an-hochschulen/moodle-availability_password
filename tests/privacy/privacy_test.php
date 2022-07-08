@@ -22,9 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use availability_password\privacy\provider;
-
-defined('MOODLE_INTERNAL') || die();
+namespace availability_password\privacy;
 
 /**
  * Class availability_password_privacy_test.
@@ -33,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class availability_password_privacy_test extends \core_privacy\tests\provider_testcase {
+class privacy_test extends \core_privacy\tests\provider_testcase {
     /**
      * Set up the unit tests.
      */
@@ -109,7 +107,7 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
      * @return \core_privacy\local\request\userlist
      */
     private function get_users_on_page($page) {
-        $ctx = context_module::instance($page->cmid);
+        $ctx = \context_module::instance($page->cmid);
         $userlist = new \core_privacy\local\request\userlist($ctx, 'availability_password');
         provider::get_users_in_context($userlist);
         return $userlist;
@@ -138,7 +136,7 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
         list($u1, $u2, $u3) = $users;
 
         // Delete u1 + u3 from page 1.
-        $ctx = context_module::instance($p1->cmid);
+        $ctx = \context_module::instance($p1->cmid);
         $userlist = new \core_privacy\local\request\userlist($ctx, 'availability_password');
         provider::get_users_in_context($userlist);
         $approvedlist = new \core_privacy\local\request\approved_userlist($ctx, 'availability_password', [$u1->id, $u3->id]);
@@ -151,7 +149,7 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
         $this->assertCount(0, $this->get_users_on_page($p4));
 
         // Delete u1 + u3 from page 2.
-        $ctx = context_module::instance($p2->cmid);
+        $ctx = \context_module::instance($p2->cmid);
         $userlist = new \core_privacy\local\request\userlist($ctx, 'availability_password');
         provider::get_users_in_context($userlist);
         $approvedlist = new \core_privacy\local\request\approved_userlist($ctx, 'availability_password', [$u1->id, $u3->id]);
@@ -164,7 +162,7 @@ class availability_password_privacy_test extends \core_privacy\tests\provider_te
         $this->assertCount(0, $this->get_users_on_page($p4));
 
         // Delete u1 + u3 from page 3.
-        $ctx = context_module::instance($p3->cmid);
+        $ctx = \context_module::instance($p3->cmid);
         $userlist = new \core_privacy\local\request\userlist($ctx, 'availability_password');
         provider::get_users_in_context($userlist);
         $approvedlist = new \core_privacy\local\request\approved_userlist($ctx, 'availability_password', [$u1->id, $u3->id]);

@@ -24,8 +24,6 @@
 
 namespace availability_password;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Code to control the settings form for password availability.
  * @package    availability_password

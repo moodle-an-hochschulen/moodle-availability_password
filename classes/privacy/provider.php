@@ -32,8 +32,6 @@ use \core_privacy\local\request\transform;
 use \core_privacy\local\request\approved_contextlist;
 use \core_privacy\local\request\helper as request_helper;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem implementing provider.
  *

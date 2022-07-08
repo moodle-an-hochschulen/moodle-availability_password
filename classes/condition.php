@@ -28,8 +28,6 @@ use cm_info;
 use core_availability\info;
 use core_availability\info_module;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Condition main class
  * @package    availability_password

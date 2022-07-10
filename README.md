@@ -77,6 +77,16 @@ Because of that and in contrast to other availability plugins, availability_pass
 By the way, if teacher A who has this capability adds the condition to an activity / resource and teacher B who has not the capability edits this activity / resource, B is able to see, edit and delete the condition of this particular activity / resource, but is still not allowed to add the condition to another activity / resource in the course.
 
 
+Capabilities
+------------
+
+This plugin also introduces these additional capabilities:
+
+### availability/password:addinstance
+
+This capability controls who is able to add password conditions to activities.
+
+
 How this plugin works
 ---------------------
 

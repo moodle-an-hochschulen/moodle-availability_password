@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v3.9-r5
 
 * 2022-07-22 - Backport Bugfix "Adding type parameter to save()" from 3.11 to 3.9, solves #17
 * 2022-07-10 - Add Visual checks section to UPGRADE.md

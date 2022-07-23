@@ -42,6 +42,7 @@ class privacy_test extends \core_privacy\tests\provider_testcase {
     /**
      * Create courses, users and pages.
      * Create 'password entered' records for some of the users.
+     *
      * @return array [$array_of_page_records, $array_of_user_records]
      * @throws coding_exception
      * @throws dml_exception
@@ -103,6 +104,7 @@ class privacy_test extends \core_privacy\tests\provider_testcase {
 
     /**
      * Given a page instance, return the associated userlist (using the privacy API).
+     *
      * @param object $page
      * @return \core_privacy\local\request\userlist
      */
@@ -115,6 +117,8 @@ class privacy_test extends \core_privacy\tests\provider_testcase {
 
     /**
      * Test get_users_in_context() function returns the expected users for each page.
+     *
+     * @covers \availability_password\privacy\privacy_test::get_users_on_page()
      */
     public function test_get_users_in_context() {
         list($pages, ) = $this->setup_data();
@@ -129,6 +133,8 @@ class privacy_test extends \core_privacy\tests\provider_testcase {
     /**
      * Test delete_data_for_users() removes the expected data from the specified users (in the specified context) and
      * no other data is affected.
+     *
+     * @covers ::delete_data_for_users()
      */
     public function test_delete_data_for_users() {
         list($pages, $users) = $this->setup_data();

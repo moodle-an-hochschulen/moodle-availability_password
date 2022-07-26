@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v4.0-r1
 
 * 2022-07-12 - Fix availability form styling (which didn't use proper Bootstrap styles up to now)
 * 2022-07-12 - Fix Behat tests which broke with Moodle 4.0.

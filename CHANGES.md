@@ -4,6 +4,10 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2022-11-28 - Updated Moodle Plugin CI to latest upstream recommendations
+
 ### v3.10-r4
 
 * 2022-07-22 - Backport Bugfix "Adding type parameter to save()" from 3.11 to 3.10, solves #17

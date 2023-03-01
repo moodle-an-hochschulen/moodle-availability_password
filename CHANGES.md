@@ -4,6 +4,10 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2023-01-21 - Prepare compatibility for Moodle 4.1.
+
 ### v4.0-r2
 
 * 2023-03-19 - Bugfix: Availability password restrictions could not be edited anymore in lesson and external tool activity instances, solves #22. 

@@ -55,8 +55,8 @@ class provider implements \core_privacy\local\metadata\provider,
                 'availability_password_grant',
                 [
                         'courseid' => 'privacy:metadata:availability_password_grant:courseid',
-                        'cmid'     => 'privacy:metadata:availability_password_grant:cmid',
-                        'userid'   => 'privacy:metadata:availability_password_grant:userid',
+                        'cmid' => 'privacy:metadata:availability_password_grant:cmid',
+                        'userid' => 'privacy:metadata:availability_password_grant:userid',
                         'password' => 'privacy:metadata:availability_password_grant:password',
                 ],
                 'privacy:metadata:availability_password_grant'
@@ -84,7 +84,7 @@ class provider implements \core_privacy\local\metadata\provider,
                 )
         ";
         $params = [
-                'userid'       => $userid,
+                'userid' => $userid,
                 'contextlevel' => CONTEXT_MODULE,
         ];
 

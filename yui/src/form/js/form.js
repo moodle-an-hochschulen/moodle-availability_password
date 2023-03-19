@@ -34,19 +34,19 @@ M.availability_password.form.getNode = function(json) {
     "use strict";
     var html, node, root, id;
 
-    id = 'password' + M.availability_password.form.instId;
+    id = 'availability_password' + M.availability_password.form.instId;
     M.availability_password.form.instId += 1;
 
     // Create HTML structure.
     html = '';
     html += '<span class="availability-group"><label for="' + id + '"><span class="p-r-1">' +
         M.util.get_string('title', 'availability_password') + ' </span></label>';
-    html += '<input type="text" name="password" id="' + id + '">';
+    html += '<input type="text" name="availability_password" id="' + id + '">';
     node = Y.Node.create('<span class="form-inline">' + html + '</span>');
 
     // Set initial values, if specified.
     if (json.password !== undefined) {
-        node.one('input[name=password]').set('value', json.password);
+        node.one('input[name=availability_password]').set('value', json.password);
     }
 
     // Add event handlers (first time only).
@@ -56,7 +56,7 @@ M.availability_password.form.getNode = function(json) {
         root.delegate('valuechange', function() {
             // Trigger the updating of the hidden availability data whenever the password field changes.
             M.core_availability.form.update();
-        }, '.availability_password input[name=password]');
+        }, '.availability_password input[name=availability_password]');
     }
 
     return node;
@@ -73,7 +73,7 @@ M.availability_password.form.fillValue = function(value, node) {
     "use strict";
 
     // Store the password.
-    value.password = node.one('input[name=password]').get('value').trim();
+    value.password = node.one('input[name=availability_password]').get('value').trim();
 };
 
 M.availability_password.form.fillErrors = function(errors, node) {

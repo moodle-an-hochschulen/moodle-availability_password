@@ -50,7 +50,7 @@ class password_form extends \moodleform {
         $mform->addElement('static', 'passwordintro', '', $label);
 
         $label = get_string('enterpassword', 'availability_password');
-        $mform->addElement('password', 'activitypassword', $label, array('maxlength' => 255));
+        $mform->addElement('password', 'activitypassword', $label, ['maxlength' => 255]);
         $mform->addRule('activitypassword', null, 'required');
         $mform->addRule('activitypassword', null, 'maxlength', 255);
         $mform->setType('activitypassword', PARAM_RAW);

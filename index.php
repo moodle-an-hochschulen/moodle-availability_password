@@ -29,12 +29,12 @@ $cmid = required_param('id', PARAM_INT);
 /** @var cm_info $cm */
 list($course, $cm) = get_course_and_cm_from_cmid($cmid);
 
-$url = new moodle_url('/availability/condition/password/index.php', array('id' => $cm->id));
+$url = new moodle_url('/availability/condition/password/index.php', ['id' => $cm->id]);
 $PAGE->set_url($url);
 
 require_login($course, false);
 
-$custom = array('cm' => $cm);
+$custom = ['cm' => $cm];
 $form = new \availability_password\password_form(null, $custom);
 
 $error = '';

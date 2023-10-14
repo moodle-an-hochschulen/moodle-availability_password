@@ -36,16 +36,16 @@ function xmldb_availability_password_upgrade($oldversion) {
         $allcourseswithpasswords = $DB->get_fieldset_select('availability_password_grant', 'courseid', '');
         foreach ($allcourseswithpasswords as $c) {
             if (!in_array($c, $allcoursesinmoodle)) {
-                $DB->delete_records('availability_password_grant', array('courseid' => $c));
+                $DB->delete_records('availability_password_grant', ['courseid' => $c]);
             }
         }
 
         // Remove remembered passwords for non-existing users because this hasn't been handled with an event handler before.
-        $allusersinmoodle = $DB->get_fieldset_select('user', 'id', 'deleted = :deleted', array('deleted' => '0'));
+        $allusersinmoodle = $DB->get_fieldset_select('user', 'id', 'deleted = :deleted', ['deleted' => '0']);
         $alluserswithpasswords = $DB->get_fieldset_select('availability_password_grant', 'userid', '');
         foreach ($alluserswithpasswords as $u) {
             if (!in_array($u, $allusersinmoodle)) {
-                $DB->delete_records('availability_password_grant', array('userid' => $u));
+                $DB->delete_records('availability_password_grant', ['userid' => $u]);
             }
         }
 

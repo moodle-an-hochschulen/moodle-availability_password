@@ -148,8 +148,8 @@ class condition extends \core_availability\condition {
             $str = get_string('requires_password', 'availability_password');
         }
         if (!$full || !$this->is_available($not, $info, false, $USER->id)) {
-            $url = new \moodle_url('/availability/condition/password/index.php', array('id' => $cm->id));
-            $str = \html_writer::link($url, $str, array('class' => 'availability_password-popup'));
+            $url = new \moodle_url('/availability/condition/password/index.php', ['id' => $cm->id]);
+            $str = \html_writer::link($url, $str, ['class' => 'availability_password-popup']);
 
             if (!$jsadded) {
                 $PAGE->requires->strings_for_js(['enterpassword', 'wrongpassword', 'passwordintro', 'passwordprotection'],
@@ -249,7 +249,7 @@ class condition extends \core_availability\condition {
                 return false; // Only remember whilst the user is logged in.
             }
             // Not the current user - just load a single record.
-            $cond = array('cmid' => $cm->id, 'userid' => $userid, 'password' => $this->password);
+            $cond = ['cmid' => $cm->id, 'userid' => $userid, 'password' => $this->password];
             return $DB->record_exists('availability_password_grant', $cond);
         }
 
@@ -264,7 +264,7 @@ class condition extends \core_availability\condition {
                 }
             } else {
                 // Retrieve from the database.
-                $cond = array('courseid' => $cm->course, 'userid' => $userid);
+                $cond = ['courseid' => $cm->course, 'userid' => $userid];
                 $recs = $DB->get_records('availability_password_grant', $cond);
                 self::$passwordsaccepted = [];
                 foreach ($recs as $rec) {
@@ -290,7 +290,7 @@ class condition extends \core_availability\condition {
     public static function course_module_deleted(\core\event\course_module_deleted $event) {
         global $DB;
         $cmid = $event->contextinstanceid;
-        $DB->delete_records('availability_password_grant', array('cmid' => $cmid));
+        $DB->delete_records('availability_password_grant', ['cmid' => $cmid]);
     }
 
     /**
@@ -300,7 +300,7 @@ class condition extends \core_availability\condition {
     public static function course_deleted(\core\event\course_deleted $event) {
         global $DB;
         $courseid = $event->contextinstanceid;
-        $DB->delete_records('availability_password_grant', array('courseid' => $courseid));
+        $DB->delete_records('availability_password_grant', ['courseid' => $courseid]);
     }
 
     /**
@@ -310,7 +310,7 @@ class condition extends \core_availability\condition {
     public static function user_deleted(\core\event\user_deleted $event) {
         global $DB;
         $userid = $event->contextinstanceid;
-        $DB->delete_records('availability_password_grant', array('userid' => $userid));
+        $DB->delete_records('availability_password_grant', ['userid' => $userid]);
     }
 
     /**

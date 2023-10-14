@@ -27,14 +27,14 @@ defined('MOODLE_INTERNAL') || die();
 $observers = [
     [
         'eventname' => '\core\event\course_module_deleted',
-        'callback' => '\availability_password\condition::course_module_deleted'
+        'callback' => '\availability_password\condition::course_module_deleted',
     ],
     [
         'eventname' => '\core\event\course_deleted',
-        'callback' => '\availability_password\condition::course_deleted'
+        'callback' => '\availability_password\condition::course_deleted',
     ],
     [
         'eventname' => '\core\event\user_deleted',
-        'callback' => '\availability_password\condition::user_deleted'
-    ]
+        'callback' => '\availability_password\condition::user_deleted',
+    ],
 ];

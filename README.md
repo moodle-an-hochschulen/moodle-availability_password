@@ -87,6 +87,12 @@ This plugin also introduces these additional capabilities:
 This capability controls who is able to add password conditions to activities.
 
 
+Scheduled Tasks
+---------------
+
+This plugin does not add any additional scheduled tasks.
+
+
 How this plugin works
 ---------------------
 

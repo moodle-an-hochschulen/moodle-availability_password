@@ -50,7 +50,7 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @return collection A listing of user data stored through this system.
      */
-    public static function get_metadata(collection $collection) : collection {
+    public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
                 'availability_password_grant',
                 [
@@ -72,7 +72,7 @@ class provider implements \core_privacy\local\metadata\provider,
      *
      * @return contextlist $contextlist The contextlist containing the list of contexts used in this plugin.
      */
-    public static function get_contexts_for_userid(int $userid) : \core_privacy\local\request\contextlist {
+    public static function get_contexts_for_userid(int $userid): \core_privacy\local\request\contextlist {
         $contextlist = new \core_privacy\local\request\contextlist();
 
         $sql = "SELECT c.id

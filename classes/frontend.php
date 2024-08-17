@@ -44,11 +44,11 @@ class frontend extends \core_availability\frontend {
      * Can only be added if this is not a section and if the user has the appropriate capability.
      *
      * @param \stdClass $course
-     * @param \cm_info $cm (optional)
-     * @param \section_info $section (optional)
+     * @param \cm_info|null $cm
+     * @param \section_info|null $section
      * @return bool
      */
-    protected function allow_add($course, \cm_info $cm = null, \section_info $section = null) {
+    protected function allow_add($course, ?\cm_info $cm = null, ?\section_info $section = null) {
         if ($section !== null) {
             // Can only be added to modules, not sections.
             return false;

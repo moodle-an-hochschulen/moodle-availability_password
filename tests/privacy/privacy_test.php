@@ -31,7 +31,7 @@ namespace availability_password\privacy;
  * @copyright  2019 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class privacy_test extends \core_privacy\tests\provider_testcase {
+final class privacy_test extends \core_privacy\tests\provider_testcase {
     /**
      * Set up the unit tests.
      */
@@ -120,7 +120,7 @@ class privacy_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers \availability_password\privacy\privacy_test::get_users_on_page()
      */
-    public function test_get_users_in_context() {
+    public function test_get_users_in_context(): void {
         list($pages, ) = $this->setup_data();
         list($p1, $p2, $p3, $p4) = $pages;
 
@@ -136,7 +136,7 @@ class privacy_test extends \core_privacy\tests\provider_testcase {
      *
      * @covers ::delete_data_for_users()
      */
-    public function test_delete_data_for_users() {
+    public function test_delete_data_for_users(): void {
         list($pages, $users) = $this->setup_data();
         list($p1, $p2, $p3, $p4) = $pages;
         list($u1, $u2, $u3) = $users;

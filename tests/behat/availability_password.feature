@@ -20,7 +20,7 @@ Feature: When a teacher configures a password restriction a student cannot acces
     And I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I turn editing mode on
-    And I add a "page" to section "1"
+    And I add a page to section "1" using the activity chooser
     And I set the following fields to these values:
       | Name         | Restricted page          |
       | Description  | Need to enter a password |

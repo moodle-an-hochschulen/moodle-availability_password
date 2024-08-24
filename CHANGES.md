@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-08-24 - Development: Rename master branch to main, please update your clones.
 * 2024-08-22 - Improvement: Style the YUI password popup more like a Moodle core popup.
 * 2024-08-22 - Upgrade: Update Bootstrap classes for Moodle 4.4.
 * 2024-08-22 - Upgrade: Replace deprecated Behat steps.

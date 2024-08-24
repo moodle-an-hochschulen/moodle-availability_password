@@ -63,7 +63,7 @@ M.availability_password.popup = {
         content = '';
         content += '<div id="availability_password_intro">' +
             M.util.get_string('passwordintro', 'availability_password', cmname) + '</div>';
-        content += '<div class="form-group">';
+        content += '<div>';
         content += '<label class="form-control-label" for="availability_password_input">' +
             M.util.get_string('enterpassword', 'availability_password') + '</label>';
         content += '<input id="availability_password_input" class="form-control" type="password" />';

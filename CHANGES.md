@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v4.3-r3
 
 * 2024-08-24 - Tests: Fix broken Behat scenario 'A student attempts to access the page activity with the activity link, but cancels the popup'.
 

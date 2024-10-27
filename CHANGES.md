@@ -4,6 +4,10 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2024-10-27 - Tests: Call parent setup() function when instantiating PHPUnit tests.
+
 ### v4.3-r3
 
 * 2024-08-24 - Tests: Fix broken Behat scenario 'A student attempts to access the page activity with the activity link, but cancels the popup'.

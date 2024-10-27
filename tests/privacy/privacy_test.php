@@ -37,6 +37,9 @@ final class privacy_test extends \core_privacy\tests\provider_testcase {
      */
     public function setUp(): void {
         $this->resetAfterTest();
+
+        // Call parent setup.
+        parent::setUp();
     }
 
     /**

@@ -149,7 +149,7 @@ class condition extends \core_availability\condition {
         }
         if (!$full || !$this->is_available($not, $info, false, $USER->id)) {
             $url = new \core\url('/availability/condition/password/index.php', ['id' => $cm->id]);
-            $str = \html_writer::link($url, $str, ['class' => 'availability_password-popup']);
+            $str = \core\output\html_writer::link($url, $str, ['class' => 'availability_password-popup']);
 
             if (!$jsadded) {
                 $PAGE->requires->strings_for_js(['enterpassword', 'wrongpassword', 'passwordintro', 'passwordprotection'],

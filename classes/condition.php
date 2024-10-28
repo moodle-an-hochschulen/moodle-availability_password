@@ -148,7 +148,7 @@ class condition extends \core_availability\condition {
             $str = get_string('requires_password', 'availability_password');
         }
         if (!$full || !$this->is_available($not, $info, false, $USER->id)) {
-            $url = new \moodle_url('/availability/condition/password/index.php', ['id' => $cm->id]);
+            $url = new \core\url('/availability/condition/password/index.php', ['id' => $cm->id]);
             $str = \html_writer::link($url, $str, ['class' => 'availability_password-popup']);
 
             if (!$jsadded) {

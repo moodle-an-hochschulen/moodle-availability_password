@@ -187,9 +187,6 @@ Individual copyrights of individual developers are tracked in PHPDoc comments an
 Initial copyright
 -----------------
 
-Initial copyright
------------------
-
 This plugin was initially built by\
 Davo Smith\
 Synergy Learning UK\

@@ -9,7 +9,7 @@ Moodle availability plugin which lets users restrict resources and activities wi
 Requirements
 ------------
 
-This plugin requires Moodle 5.0+
+This plugin requires Moodle 5.1+
 
 
 Motivation for this plugin

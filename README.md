@@ -1,7 +1,7 @@
 moodle-availability_password
 ============================
 
-[![Moodle Plugin CI](https://github.com/moodle-an-hochschulen/moodle-availability_password/actions/workflows/moodle-plugin-ci.yml/badge.svg?branch=main)](https://github.com/moodle-an-hochschulen/moodle-availability_password/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amain)
+[![Moodle Plugin CI](https://github.com/moodle-an-hochschulen/moodle-availability_password/actions/workflows/moodle-plugin-ci.yml/badge.svg?branch=MOODLE_501_STABLE)](https://github.com/moodle-an-hochschulen/moodle-availability_password/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3AMOODLE_501_STABLE)
 
 Moodle availability plugin which lets users restrict resources and activities with password access
 

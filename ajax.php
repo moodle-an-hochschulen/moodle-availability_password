@@ -48,7 +48,11 @@ if (\availability_password\condition::submit_password_for_cm($cm, $password)) {
     $modinfo = get_fast_modinfo($course);
     $cminfo = $modinfo->get_cm($cm->id);
     if ($cminfo->available) {
-        $ret->redirect = $cm->url->out(false);
+        if (!empty($cm->url)) {
+            $ret->redirect = $cm->url->out(false);
+        } else {
+            $ret->redirect = course_get_url($cm->course, $cm->sectionnum)->out(false);
+        }
     }
 }
 

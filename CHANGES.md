@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-22 - Upgrade: Adopt changes from MDL-68037 and use colour mode aware custom properties for borders to support the dark mode.
 * 2026-10-05 - Prepare compatibility for Moodle 5.3.
 
 ### v5.2-r1

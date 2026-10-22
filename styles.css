@@ -1,6 +1,6 @@
 /* Password Popup: Whitespace and borders around intro text. */
 #availability_password_intro {
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--mds-border-default);
     margin-bottom: 1rem;
     padding-bottom: 1rem;
 }
@@ -18,7 +18,7 @@
     font-weight: 700 !important; /* stylelint-disable-line declaration-no-important */
 }
 .availability_password_dialogue .moodle-dialogue-ft {
-    border-top: 1px solid #e9ecef;
+    border-top: 1px solid var(--mds-border-default);
     padding-top: 1rem;
 }
 .availability_password_dialogue .moodle-dialogue-ft .yui3-button {

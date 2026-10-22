@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v5.3-r1
 
 * 2026-10-22 - Upgrade: Adopt changes from MDL-68037 and use colour mode aware custom properties for borders to support the dark mode.
 * 2026-10-05 - Prepare compatibility for Moodle 5.3.

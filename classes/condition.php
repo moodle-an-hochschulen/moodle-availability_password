@@ -68,9 +68,8 @@ class condition extends \core_availability\condition {
     private function remember_session() {
         static $remember = null;
         if ($remember === null) {
-            // Note: global settings currently unsupported for availability conditions.
-            // See https://tracker.moodle.org/browse/MDL-49620.
-            // For now, this will always return false, unless manually inserted into the database.
+            // Get the "Remember password entered" setting from the plugin's settings page.
+            // It is cached for the rest of the request as it is checked for every password condition.
             $remember = get_config('availability_password', 'remember');
         }
         return ($remember === 'session');

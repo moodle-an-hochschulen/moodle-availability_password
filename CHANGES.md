@@ -4,6 +4,10 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-28 - Bugfix: Compare passwords strictly and in constant time.
+
 ### v4.5-r2
 
 * 2025-10-15 - Make codechecker happy again

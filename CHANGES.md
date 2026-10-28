@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-28 - Tests: Cover all privacy provider functions with PHPUnit tests and fix the @covers annotations, fix the privacy export for an empty contextlist.
 * 2026-10-28 - Improvement: Log accepted and rejected password submissions with events to make brute-force attempts auditable.
 * 2026-10-28 - Bugfix: Cache the accepted passwords per user and course.
 * 2026-10-28 - Cleanup: Remove the outdated instructions for setting the 'Remember password entered' setting directly in the database on legacy Moodle versions from the README and an outdated code comment about it.

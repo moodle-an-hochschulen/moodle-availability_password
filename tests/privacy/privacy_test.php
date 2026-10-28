@@ -30,6 +30,7 @@ namespace availability_password\privacy;
  * @package    availability_password
  * @copyright  2019 Davo Smith, Synergy Learning UK on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers     \availability_password\privacy\provider
  */
 final class privacy_test extends \core_privacy\tests\provider_testcase {
     /**
@@ -119,9 +120,151 @@ final class privacy_test extends \core_privacy\tests\provider_testcase {
     }
 
     /**
-     * Test get_users_in_context() function returns the expected users for each page.
+     * Given a user and a list of pages, return the approved contextlist for these pages.
      *
-     * @covers \availability_password\privacy\privacy_test::get_users_on_page()
+     * @param object $user
+     * @param array $pages
+     * @return \core_privacy\local\request\approved_contextlist
+     */
+    private function get_approved_contextlist($user, array $pages) {
+        $contextids = array_map(fn($page) => \context_module::instance($page->cmid)->id, $pages);
+        return new \core_privacy\local\request\approved_contextlist($user, 'availability_password', $contextids);
+    }
+
+    /**
+     * Test get_metadata() function describes the grant table.
+     */
+    public function test_get_metadata(): void {
+        $collection = new \core_privacy\local\metadata\collection('availability_password');
+        $items = provider::get_metadata($collection)->get_collection();
+
+        $this->assertCount(1, $items);
+        $this->assertEquals('availability_password_grant', $items[0]->get_name());
+        $this->assertEquals(
+            ['courseid', 'cmid', 'userid', 'passwordhash'],
+            array_keys($items[0]->get_privacy_fields())
+        );
+    }
+
+    /**
+     * Test get_contexts_for_userid() function returns the expected contexts for each user.
+     */
+    public function test_get_contexts_for_userid(): void {
+        [$pages, $users] = $this->setup_data();
+        [$p1, $p2, $p3, ] = $pages;
+        [$u1, $u2, $u3] = $users;
+        $u4 = self::getDataGenerator()->create_user();
+
+        $ctx1 = \context_module::instance($p1->cmid)->id;
+        $ctx2 = \context_module::instance($p2->cmid)->id;
+        $ctx3 = \context_module::instance($p3->cmid)->id;
+
+        $contextids = provider::get_contexts_for_userid($u1->id)->get_contextids();
+        $this->assertEqualsCanonicalizing([$ctx1, $ctx2, $ctx3], $contextids);
+        $contextids = provider::get_contexts_for_userid($u2->id)->get_contextids();
+        $this->assertEqualsCanonicalizing([$ctx1], $contextids);
+        $contextids = provider::get_contexts_for_userid($u3->id)->get_contextids();
+        $this->assertEqualsCanonicalizing([$ctx3], $contextids);
+        $this->assertCount(0, provider::get_contexts_for_userid($u4->id));
+    }
+
+    /**
+     * Test export_user_data() exports the grants of the given user in the approved contexts only and
+     * does not export the password hash.
+     */
+    public function test_export_user_data(): void {
+        [$pages, $users] = $this->setup_data();
+        [$p1, $p2, $p3, $p4] = $pages;
+        [$u1, $u2, ] = $users;
+        $subcontext = [get_string('pluginname', 'availability_password')];
+
+        // Export u1's data for pages 1, 2 and 4, but not for page 3.
+        provider::export_user_data($this->get_approved_contextlist($u1, [$p1, $p2, $p4]));
+
+        foreach ([$p1, $p2] as $page) {
+            $writer = \core_privacy\local\request\writer::with_context(\context_module::instance($page->cmid));
+            $this->assertTrue($writer->has_any_data());
+            $data = $writer->get_data($subcontext);
+            $this->assertEquals($page->course, $data->courseid);
+            $this->assertEquals($page->cmid, $data->cmid);
+            $this->assertEquals($u1->id, $data->userid);
+            $this->assertObjectNotHasProperty('passwordhash', $data);
+        }
+
+        // Page 3 was not approved and page 4 does not contain any data.
+        foreach ([$p3, $p4] as $page) {
+            $writer = \core_privacy\local\request\writer::with_context(\context_module::instance($page->cmid));
+            $this->assertFalse($writer->has_any_data());
+        }
+
+        // Exporting u2's data for page 1 exports u2's grant and not u1's.
+        \core_privacy\local\request\writer::reset();
+        provider::export_user_data($this->get_approved_contextlist($u2, [$p1]));
+        $writer = \core_privacy\local\request\writer::with_context(\context_module::instance($p1->cmid));
+        $this->assertEquals($u2->id, $writer->get_data($subcontext)->userid);
+    }
+
+    /**
+     * Test export_user_data() does not export anything for an empty contextlist.
+     */
+    public function test_export_user_data_empty_contextlist(): void {
+        [$pages, $users] = $this->setup_data();
+        [$p1, , , ] = $pages;
+        [$u1, , ] = $users;
+
+        provider::export_user_data($this->get_approved_contextlist($u1, []));
+
+        $writer = \core_privacy\local\request\writer::with_context(\context_module::instance($p1->cmid));
+        $this->assertFalse($writer->has_any_data());
+    }
+
+    /**
+     * Test delete_data_for_all_users_in_context() removes all data in the given module context only and
+     * ignores other context levels.
+     */
+    public function test_delete_data_for_all_users_in_context(): void {
+        [$pages, ] = $this->setup_data();
+        [$p1, $p2, $p3, $p4] = $pages;
+
+        // A course context is ignored, even if it contains modules with data.
+        provider::delete_data_for_all_users_in_context(\context_course::instance($p1->course));
+        $this->assertCount(2, $this->get_users_on_page($p1));
+        $this->assertCount(1, $this->get_users_on_page($p2));
+
+        // Delete all users from page 1.
+        provider::delete_data_for_all_users_in_context(\context_module::instance($p1->cmid));
+
+        // Check that there are now no users for page 1, but the other counts are unaffected.
+        $this->assertCount(0, $this->get_users_on_page($p1));
+        $this->assertCount(1, $this->get_users_on_page($p2));
+        $this->assertCount(2, $this->get_users_on_page($p3));
+        $this->assertCount(0, $this->get_users_on_page($p4));
+    }
+
+    /**
+     * Test delete_data_for_user() removes the data of the given user in the approved contexts only.
+     */
+    public function test_delete_data_for_user(): void {
+        [$pages, $users] = $this->setup_data();
+        [$p1, $p2, $p3, $p4] = $pages;
+        [$u1, $u2, $u3] = $users;
+
+        // Delete u1 from pages 1 and 3.
+        provider::delete_data_for_user($this->get_approved_contextlist($u1, [$p1, $p3]));
+
+        // Check that u1 is only left on page 2 and the other users are unaffected.
+        $this->assertEquals([$u2->id], $this->get_users_on_page($p1)->get_userids());
+        $this->assertEquals([$u1->id], $this->get_users_on_page($p2)->get_userids());
+        $this->assertEquals([$u3->id], $this->get_users_on_page($p3)->get_userids());
+        $this->assertCount(0, $this->get_users_on_page($p4));
+
+        // An empty contextlist does not delete anything.
+        provider::delete_data_for_user($this->get_approved_contextlist($u1, []));
+        $this->assertCount(1, $this->get_users_on_page($p2));
+    }
+
+    /**
+     * Test get_users_in_context() function returns the expected users for each page.
      */
     public function test_get_users_in_context(): void {
         [$pages, ] = $this->setup_data();
@@ -136,8 +279,6 @@ final class privacy_test extends \core_privacy\tests\provider_testcase {
     /**
      * Test delete_data_for_users() removes the expected data from the specified users (in the specified context) and
      * no other data is affected.
-     *
-     * @covers ::delete_data_for_users()
      */
     public function test_delete_data_for_users(): void {
         [$pages, $users] = $this->setup_data();

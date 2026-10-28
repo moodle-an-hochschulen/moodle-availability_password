@@ -33,12 +33,19 @@ $PAGE->set_url($url);
 
 require_login($course, false);
 
+$format = course_get_format($course);
+$courseredir = $format->get_view_url(null);
+
+// The activity might not have a password condition (anymore), e.g. if the URL was manipulated or if the
+// password condition was removed after the course page was loaded. There is nothing to enter then.
+if (!\availability_password\condition::has_password_condition($cm)) {
+    redirect($courseredir);
+}
+
 $custom = ['cm' => $cm];
 $form = new \availability_password\password_form(null, $custom);
 
 $error = '';
-$format = course_get_format($course);
-$courseredir = $format->get_view_url(null);
 if ($form->is_cancelled()) {
     redirect($courseredir);
 }

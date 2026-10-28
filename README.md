@@ -57,15 +57,6 @@ However, there might be scenarios with even higher security demands which make i
 
 availability_password also supports this use case. Go to Site administration -> Plugins -> Availability restrictions -> Restriction by password and change the "Remember password entered" setting to "Until the user logs out".
 
-Note:
-Moodle core did not support settings pages for availability conditions until 2.9.5 and 3.0.3 (see https://tracker.moodle.org/browse/MDL-49620).
-
-So, if your are running a legacy version of Moodle and you really need to limit the memory of availability_password to a user's session, you have to set the plugin's configuration directly in the DB. This can be done with this SQL command:
-
-INSERT INTO mdl_config_plugins ("plugin", "name", "value") VALUES ('availability_password', 'remember', 'session');
-
-Please only run this SQL command if you really know what you are doing. After running the SQL command, you might have to clear your Moodle cache for the change to take effect.
-
 
 Restricting usage
 -----------------
@@ -97,6 +88,10 @@ How this plugin works
 ---------------------
 
 Normally, authentication plugins just use existing information from a course to decide about the access to an activity / resource. This plugin goes beyond this approach and inteligently adds a popup window between the course overview page view and the activity / resource view asking the user for a password.
+
+When a student has entered the correct password, the plugin remembers this fact either in the database or in the user's session (see the "Remember password entered" setting above). In both cases, it does not store the entered password itself, but only a hash of the password which is salted with the course module ID. This hash is also used to notice if a teacher has changed the password in the meantime, in which case the student has to enter the new password.
+
+Please note that the password which the teacher has configured is still stored in cleartext within the activity's / resource's availability configuration in the database. This is how Moodle core stores the configuration of all availability conditions and it is needed to check the passwords which the students enter.
 
 
 Theme support

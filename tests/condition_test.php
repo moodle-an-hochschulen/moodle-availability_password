@@ -172,4 +172,58 @@ final class condition_test extends \advanced_testcase {
 
         $this->assertFalse($this->is_available($cm, $student->id));
     }
+
+    /**
+     * Test that only a salted hash of the accepted password is stored in the database and that it is used
+     * to check the availability for the current user as well as for other users.
+     */
+    public function test_password_stored_as_hash(): void {
+        global $DB;
+
+        [$course, $cm, $student] = $this->create_restricted_page('secret');
+        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $this->setUser($student);
+
+        $this->assertTrue(condition::submit_password_for_cm($cm, 'secret'));
+
+        $rec = $DB->get_record('availability_password_grant', ['cmid' => $cm->id, 'userid' => $student->id], '*', MUST_EXIST);
+        $this->assertSame(hash('sha256', $cm->id . ':secret'), $rec->passwordhash);
+        $this->assertNotContains('secret', (array) $rec);
+
+        // Check the availability for the current user (static cache) and for another user (single record lookup).
+        $this->assertTrue($this->is_available($cm, $student->id));
+        $this->reset_passwords_cache();
+        $this->setUser($teacher);
+        $this->assertTrue($this->is_available($cm, $student->id));
+    }
+
+    /**
+     * Test that the hash of the same password differs between activities.
+     */
+    public function test_password_hash_salted_with_cmid(): void {
+        $this->assertNotSame(condition::get_password_hash(1, 'secret'), condition::get_password_hash(2, 'secret'));
+        $this->assertSame(condition::get_password_hash(1, 'secret'), condition::get_password_hash(1, 'secret'));
+    }
+
+    /**
+     * Test that only a salted hash of the accepted password is stored in the session if passwords are remembered per session.
+     *
+     * This test runs in a separate process as condition::remember_session() caches the setting in a static variable
+     * which cannot be reset between tests.
+     *
+     * @runInSeparateProcess
+     */
+    public function test_password_stored_as_hash_in_session(): void {
+        global $DB, $USER;
+
+        set_config('remember', 'session', 'availability_password');
+
+        [, $cm, $student] = $this->create_restricted_page('secret');
+        $this->setUser($student);
+
+        $this->assertTrue(condition::submit_password_for_cm($cm, 'secret'));
+        $this->assertSame([$cm->id => [hash('sha256', $cm->id . ':secret')]], $USER->availability_password);
+        $this->assertFalse($DB->record_exists('availability_password_grant', ['cmid' => $cm->id]));
+        $this->assertTrue($this->is_available($cm, $student->id));
+    }
 }

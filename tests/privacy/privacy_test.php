@@ -72,33 +72,33 @@ final class privacy_test extends \core_privacy\tests\provider_testcase {
             'courseid' => $p1->course,
             'cmid' => $p1->cmid,
             'userid' => $u1->id,
-            'password' => 'fred',
+            'passwordhash' => \availability_password\condition::get_password_hash($p1->cmid, 'fred'),
         ]);
         $DB->insert_record('availability_password_grant', (object)[
             'courseid' => $p1->course,
             'cmid' => $p1->cmid,
             'userid' => $u2->id,
-            'password' => 'fred',
+            'passwordhash' => \availability_password\condition::get_password_hash($p1->cmid, 'fred'),
         ]);
         // Page 2 (u1).
         $DB->insert_record('availability_password_grant', (object)[
             'courseid' => $p2->course,
             'cmid' => $p2->cmid,
             'userid' => $u1->id,
-            'password' => 'fred',
+            'passwordhash' => \availability_password\condition::get_password_hash($p2->cmid, 'fred'),
         ]);
         // Page 3 (u1 + u3).
         $DB->insert_record('availability_password_grant', (object)[
             'courseid' => $p3->course,
             'cmid' => $p3->cmid,
             'userid' => $u1->id,
-            'password' => 'fred',
+            'passwordhash' => \availability_password\condition::get_password_hash($p3->cmid, 'fred'),
         ]);
         $DB->insert_record('availability_password_grant', (object)[
             'courseid' => $p3->course,
             'cmid' => $p3->cmid,
             'userid' => $u3->id,
-            'password' => 'fred',
+            'passwordhash' => \availability_password\condition::get_password_hash($p3->cmid, 'fred'),
         ]);
         // Nothing for p4.
 

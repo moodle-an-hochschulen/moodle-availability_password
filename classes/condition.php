@@ -54,8 +54,9 @@ class condition extends \core_availability\condition {
      * @param object $structure the configured settings for this instance
      */
     public function __construct($structure) {
-        if (!empty($structure->password)) {
-            $this->password = $structure->password;
+        // Use isset() instead of empty() as '0' is a valid password and cast to string to allow strict comparisons.
+        if (isset($structure->password)) {
+            $this->password = (string) $structure->password;
         }
     }
 
@@ -191,7 +192,8 @@ class condition extends \core_availability\condition {
      * @return bool
      */
     private function check_password($password) {
-        return ($password == $this->password);
+        // Use a constant-time and type-safe comparison.
+        return hash_equals($this->password, (string) $password);
     }
 
     /**
@@ -280,7 +282,7 @@ class condition extends \core_availability\condition {
         if (!isset(self::$passwordsaccepted[$cm->id])) {
             return false;
         }
-        return in_array($this->password, self::$passwordsaccepted[$cm->id]);
+        return in_array($this->password, self::$passwordsaccepted[$cm->id], true);
     }
 
     /**
@@ -324,6 +326,11 @@ class condition extends \core_availability\condition {
      */
     public static function submit_password_for_cm(cm_info $cm, $password, $userid = null) {
         global $USER;
+
+        // An empty password is never correct.
+        if ((string) $password === '') {
+            return false;
+        }
 
         if ($userid === null) {
             $userid = $USER->id;

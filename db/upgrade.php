@@ -51,5 +51,42 @@ function xmldb_availability_password_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2018051605, 'availability', 'password');
     }
+
+    if ($oldversion < 2026100501) {
+        // Replace the cleartext passwords in the grant table with salted hashes.
+        $dbman = $DB->get_manager();
+        $table = new xmldb_table('availability_password_grant');
+
+        // Add the passwordhash field, nullable for now as the existing records do not have a hash yet.
+        $field = new xmldb_field('passwordhash', XMLDB_TYPE_CHAR, '64', null, null, null, null, 'userid');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Hash the existing cleartext passwords.
+        // The hash has to match \availability_password\condition::get_password_hash(). It is computed here directly
+        // to keep this upgrade step independent of later changes to the condition class.
+        $oldfield = new xmldb_field('password');
+        if ($dbman->field_exists($table, $oldfield)) {
+            $recs = $DB->get_recordset('availability_password_grant', null, '', 'id, cmid, password');
+            foreach ($recs as $rec) {
+                $passwordhash = hash('sha256', $rec->cmid . ':' . $rec->password);
+                $DB->set_field('availability_password_grant', 'passwordhash', $passwordhash, ['id' => $rec->id]);
+            }
+            $recs->close();
+        }
+
+        // Now that all records have a hash, make the passwordhash field NOT NULL.
+        $field = new xmldb_field('passwordhash', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'userid');
+        $dbman->change_field_notnull($table, $field);
+
+        // Drop the password field which contained the cleartext passwords.
+        if ($dbman->field_exists($table, $oldfield)) {
+            $dbman->drop_field($table, $oldfield);
+        }
+
+        upgrade_plugin_savepoint(true, 2026100501, 'availability', 'password');
+    }
+
     return true;
 }

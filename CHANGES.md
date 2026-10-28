@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-28 - Bugfix: Cache the accepted passwords per user and course.
 * 2026-10-28 - Cleanup: Remove the outdated instructions for setting the 'Remember password entered' setting directly in the database on legacy Moodle versions from the README and an outdated code comment about it.
 * 2026-10-28 - Improvement: Store only a salted hash of the accepted passwords instead of the cleartext password, hide it from the privacy export.
                Please note: If the "Remember password entered" setting is set to "Until the user logs out", users who are logged in during the plugin upgrade and have already entered a password will have to enter it once again. This does not affect the "Permanently" setting, as the upgrade step converts the stored passwords to hashes.

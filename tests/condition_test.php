@@ -39,7 +39,7 @@ final class condition_test extends \advanced_testcase {
     /**
      * Enable availability and reset the static cache of accepted passwords before each test.
      *
-     * The cache is keyed by cmid only and survives between tests, while the cmids are reused after each reset.
+     * The cache survives between tests, while the user, course and cm IDs are reused after each reset.
      */
     public function setUp(): void {
         parent::setUp();
@@ -225,5 +225,63 @@ final class condition_test extends \advanced_testcase {
         $this->assertSame([$cm->id => [hash('sha256', $cm->id . ':secret')]], $USER->availability_password);
         $this->assertFalse($DB->record_exists('availability_password_grant', ['cmid' => $cm->id]));
         $this->assertTrue($this->is_available($cm, $student->id));
+    }
+
+    /**
+     * Test that the accepted passwords of the current user are found for activities in multiple courses
+     * which are checked within the same request.
+     */
+    public function test_accepted_passwords_in_multiple_courses(): void {
+        [$course1, $cm1, $student] = $this->create_restricted_page('secret1');
+        [$course2, $cm2] = $this->create_restricted_page('secret2');
+        $this->getDataGenerator()->enrol_user($student->id, $course2->id, 'student');
+        $this->setUser($student);
+
+        $this->assertTrue(condition::submit_password_for_cm($cm1, 'secret1'));
+        $this->assertTrue(condition::submit_password_for_cm($cm2, 'secret2'));
+
+        // Start with an empty cache like in a new request.
+        $this->reset_passwords_cache();
+        $this->assertTrue($this->is_available($cm1, $student->id));
+        $this->assertTrue($this->is_available($cm2, $student->id));
+    }
+
+    /**
+     * Test that the accepted passwords of one user do not grant access to another user
+     * if the current user changes within the same request, e.g. when running multiple adhoc tasks.
+     */
+    public function test_accepted_passwords_not_shared_between_users(): void {
+        [$course, $cm, $student1] = $this->create_restricted_page('secret');
+        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+
+        $this->setUser($student1);
+        $this->assertTrue(condition::submit_password_for_cm($cm, 'secret'));
+        $this->assertTrue($this->is_available($cm, $student1->id));
+
+        $this->setUser($student2);
+        $this->assertFalse($this->is_available($cm, $student2->id));
+    }
+
+    /**
+     * Test that the accepted passwords of one user do not grant access to another user
+     * if the current user changes within the same request and passwords are remembered per session.
+     *
+     * This test runs in a separate process as condition::remember_session() caches the setting in a static variable
+     * which cannot be reset between tests.
+     *
+     * @runInSeparateProcess
+     */
+    public function test_accepted_passwords_not_shared_between_users_in_session(): void {
+        set_config('remember', 'session', 'availability_password');
+
+        [$course, $cm, $student1] = $this->create_restricted_page('secret');
+        $student2 = $this->getDataGenerator()->create_and_enrol($course, 'student');
+
+        $this->setUser($student1);
+        $this->assertTrue(condition::submit_password_for_cm($cm, 'secret'));
+        $this->assertTrue($this->is_available($cm, $student1->id));
+
+        $this->setUser($student2);
+        $this->assertFalse($this->is_available($cm, $student2->id));
     }
 }

@@ -41,6 +41,14 @@ $ret = (object) [
     'error' => 0,
     'success' => 0,
 ];
+
+// The activity might not have a password condition (anymore), e.g. if the request was manipulated or if the
+// password condition was removed after the course page was loaded. The password can't be accepted then.
+if (!\availability_password\condition::has_password_condition($cm)) {
+    echo json_encode($ret);
+    die();
+}
+
 if (\availability_password\condition::submit_password_for_cm($cm, $password)) {
     $ret->success = 1;
 

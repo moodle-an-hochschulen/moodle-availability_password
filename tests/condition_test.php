@@ -154,6 +154,70 @@ final class condition_test extends \advanced_testcase {
     }
 
     /**
+     * Data provider for test_submit_password_event.
+     *
+     * @return array
+     */
+    public static function submit_password_event_provider(): array {
+        return [
+            'Correct password' => ['secret', event\password_accepted::class],
+            'Wrong password' => ['wrong', event\password_rejected::class],
+            'Empty password' => ['', event\password_rejected::class],
+        ];
+    }
+
+    /**
+     * Test that every password submission is logged with an event which does not contain the entered password.
+     *
+     * @dataProvider submit_password_event_provider
+     * @param string $submitted The submitted password.
+     * @param string $expectedclass The class of the expected event.
+     */
+    public function test_submit_password_event(string $submitted, string $expectedclass): void {
+        [, $cm, $student] = $this->create_restricted_page('secret');
+        $this->setUser($student);
+
+        $sink = $this->redirectEvents();
+        condition::submit_password_for_cm($cm, $submitted);
+        $events = $sink->get_events();
+        $sink->close();
+
+        $this->assertCount(1, $events);
+        $event = reset($events);
+        $this->assertInstanceOf($expectedclass, $event);
+        $this->assertEquals($cm->context, $event->get_context());
+        $this->assertEquals($student->id, $event->userid);
+        $this->assertEquals($student->id, $event->relateduserid);
+        $this->assertEquals(
+            new \core\url('/availability/condition/password/index.php', ['id' => $cm->id]),
+            $event->get_url()
+        );
+        $this->assertEventContextNotUsed($event);
+        if ($submitted !== '') {
+            $this->assertStringNotContainsString($submitted, json_encode($event->get_data()));
+        }
+    }
+
+    /**
+     * Test that a password submission for an activity without a password restriction is rejected without an event.
+     */
+    public function test_submit_password_without_restriction(): void {
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $student = $generator->create_and_enrol($course, 'student');
+        $page = $generator->create_module('page', ['course' => $course->id]);
+        $cm = get_fast_modinfo($course)->get_cm($page->cmid);
+        $this->setUser($student);
+
+        $sink = $this->redirectEvents();
+        $this->assertFalse(condition::submit_password_for_cm($cm, 'secret'));
+        $events = $sink->get_events();
+        $sink->close();
+
+        $this->assertCount(0, $events);
+    }
+
+    /**
      * Test that an accepted password does not grant access anymore after the password was changed
      * to a value which is only loosely equal to the old one.
      */

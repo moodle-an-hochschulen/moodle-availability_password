@@ -91,6 +91,8 @@ Normally, authentication plugins just use existing information from a course to 
 
 When a student has entered the correct password, the plugin remembers this fact either in the database or in the user's session (see the "Remember password entered" setting above). In both cases, it does not store the entered password itself, but only a hash of the password which is salted with the course module ID. This hash is also used to notice if a teacher has changed the password in the meantime, in which case the student has to enter the new password.
 
+Every password which a user submits is logged with a "Password accepted" or "Password rejected" event. The entered password itself is not logged. This way, teachers and admins can spot in the logs if a user tries to guess the password of an activity / resource by brute force. Please note that the plugin does not limit the number of password attempts, just like the password protection of Moodle core's quiz and lesson activities.
+
 Please note that the password which the teacher has configured is still stored in cleartext within the activity's / resource's availability configuration in the database. This is how Moodle core stores the configuration of all availability conditions and it is needed to check the passwords which the students enter.
 
 

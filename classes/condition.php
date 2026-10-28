@@ -357,6 +357,9 @@ class condition extends \core_availability\condition {
      * Checks the given password against the restrictions set for the given cm.
      * If the password matches, then that restriction is marked as being met.
      *
+     * Every submission for a cm with a password restriction is logged with a password_accepted or
+     * password_rejected event to make repeated wrong passwords (e.g. brute-force attempts) auditable.
+     *
      * @param cm_info $cm
      * @param string $password
      * @param int $userid (optional)
@@ -365,22 +368,39 @@ class condition extends \core_availability\condition {
     public static function submit_password_for_cm(cm_info $cm, $password, $userid = null) {
         global $USER;
 
-        // An empty password is never correct.
-        if ((string) $password === '') {
-            return false;
-        }
-
         if ($userid === null) {
             $userid = $USER->id;
         }
-        $correct = false;
+        // Do not log anything if the activity has no password condition, as no password could unlock it anyway
+        // and rejected events for such activities would only add noise to the logs.
         $pconds = self::get_password_conditions($cm);
-        foreach ($pconds as $pcond) {
-            if ($pcond->check_password($password)) {
-                $pcond->save_available($cm, $userid);
-                $correct = true;
+        if (!$pconds) {
+            return false;
+        }
+
+        $correct = false;
+        // An empty password is never correct.
+        if ((string) $password !== '') {
+            foreach ($pconds as $pcond) {
+                if ($pcond->check_password($password)) {
+                    $pcond->save_available($cm, $userid);
+                    $correct = true;
+                }
             }
         }
+
+        // Log the submission, but never the entered password itself.
+        $params = [
+            'context' => $cm->context,
+            'relateduserid' => $userid,
+        ];
+        if ($correct) {
+            $event = event\password_accepted::create($params);
+        } else {
+            $event = event\password_rejected::create($params);
+        }
+        $event->trigger();
+
         return $correct;
     }
 
@@ -402,6 +422,10 @@ class condition extends \core_availability\condition {
      * @return condition[]
      */
     private static function get_password_conditions(cm_info $cm) {
+        // A cm without any availability restriction has no availability tree.
+        if ($cm->availability === null) {
+            return [];
+        }
         $info = new info_module($cm);
         $tree = $info->get_availability_tree();
         return $tree->get_all_children('\\availability_password\\condition');

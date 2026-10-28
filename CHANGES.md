@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2026-10-28 - Improvement: Log accepted and rejected password submissions with events to make brute-force attempts auditable.
 * 2026-10-28 - Bugfix: Cache the accepted passwords per user and course.
 * 2026-10-28 - Cleanup: Remove the outdated instructions for setting the 'Remember password entered' setting directly in the database on legacy Moodle versions from the README and an outdated code comment about it.
 * 2026-10-28 - Improvement: Store only a salted hash of the accepted passwords instead of the cleartext password, hide it from the privacy export.

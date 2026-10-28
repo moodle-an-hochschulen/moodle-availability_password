@@ -101,7 +101,7 @@ class provider implements
     public static function export_user_data(approved_contextlist $contextlist) {
         global $DB;
 
-        if (empty($contextlist)) {
+        if (empty($contextlist->count())) {
             return;
         }
 

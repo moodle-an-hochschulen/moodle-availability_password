@@ -4,6 +4,16 @@ moodle-availability_password
 Changes
 -------
 
+### Unreleased
+
+* 2026-10-28 - Tests: Cover all privacy provider functions with PHPUnit tests and fix the @covers annotations, fix the privacy export for an empty contextlist.
+* 2026-10-28 - Improvement: Log accepted and rejected password submissions with events to make brute-force attempts auditable.
+* 2026-10-28 - Bugfix: Cache the accepted passwords per user and course.
+* 2026-10-28 - Cleanup: Remove the outdated instructions for setting the 'Remember password entered' setting directly in the database on legacy Moodle versions from the README and an outdated code comment about it.
+* 2026-10-28 - Improvement: Store only a salted hash of the accepted passwords instead of the cleartext password, hide it from the privacy export.
+               Please note: If the "Remember password entered" setting is set to "Until the user logs out", users who are logged in during the plugin upgrade and have already entered a password will have to enter it once again. This does not affect the "Permanently" setting, as the upgrade step converts the stored passwords to hashes.
+* 2026-10-28 - Bugfix: Compare passwords strictly and in constant time.
+
 ### v5.3-r1
 
 * 2026-10-22 - Upgrade: Adopt changes from MDL-68037 and use colour mode aware custom properties for borders to support the dark mode.

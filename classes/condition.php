@@ -42,10 +42,13 @@ class condition extends \core_availability\condition {
      */
     protected $password = '';
     /**
-     * Stores arrays of accepted passwords, indexed by cmid, for the current user.
-     * Loaded from database table availability_password_grant.
+     * Stores arrays of accepted password hashes, indexed by userid, courseid and cmid.
+     * Loaded per user and course from database table availability_password_grant.
      *
-     * @var null|string[][]
+     * The userid is part of the key as the current user can change within one request (e.g. in adhoc tasks).
+     * The courseid is part of the key as availability can be checked for activities in multiple courses within one request.
+     *
+     * @var null|string[][][][]
      */
     protected static $passwordsaccepted = null;
 
@@ -54,8 +57,9 @@ class condition extends \core_availability\condition {
      * @param object $structure the configured settings for this instance
      */
     public function __construct($structure) {
-        if (!empty($structure->password)) {
-            $this->password = $structure->password;
+        // Use isset() instead of empty() as '0' is a valid password and cast to string to allow strict comparisons.
+        if (isset($structure->password)) {
+            $this->password = (string) $structure->password;
         }
     }
 
@@ -67,9 +71,8 @@ class condition extends \core_availability\condition {
     private function remember_session() {
         static $remember = null;
         if ($remember === null) {
-            // Note: global settings currently unsupported for availability conditions.
-            // See https://tracker.moodle.org/browse/MDL-49620.
-            // For now, this will always return false, unless manually inserted into the database.
+            // Get the "Remember password entered" setting from the plugin's settings page.
+            // It is cached for the rest of the request as it is checked for every password condition.
             $remember = get_config('availability_password', 'remember');
         }
         return ($remember === 'session');
@@ -171,6 +174,8 @@ class condition extends \core_availability\condition {
      * @return string Text representation of parameters
      */
     protected function get_debug_string() {
+        // The configured password is output in cleartext on purpose. This is developer-only debug output and the
+        // password is stored in cleartext in the availability tree anyway, so redacting it here would not hide anything.
         return 'Password = ' . $this->password;
     }
 
@@ -191,7 +196,23 @@ class condition extends \core_availability\condition {
      * @return bool
      */
     private function check_password($password) {
-        return ($password == $this->password);
+        // Use a constant-time and type-safe comparison.
+        return hash_equals($this->password, (string) $password);
+    }
+
+    /**
+     * Get the hash of the given password which is stored to remember that a user has entered the password.
+     *
+     * The hash is deterministic to allow looking it up in the database. It is salted with the cmid
+     * so that the same password produces different hashes in different activities.
+     * Please note that db/upgrade.php computes the same hash to convert the cleartext passwords of earlier versions.
+     *
+     * @param int $cmid The course module ID.
+     * @param string $password The password.
+     * @return string The SHA-256 hash as a hexadecimal string.
+     */
+    public static function get_password_hash(int $cmid, string $password): string {
+        return hash('sha256', $cmid . ':' . $password);
     }
 
     /**
@@ -207,6 +228,9 @@ class condition extends \core_availability\condition {
             return; // Password already marked as accepted.
         }
 
+        // Only remember the hash of the password to avoid storing the password in cleartext a second time.
+        $passwordhash = self::get_password_hash($cm->id, $this->password);
+
         if ($this->remember_session()) {
             // Store in the session.
             if ($userid != $USER->id) {
@@ -218,15 +242,15 @@ class condition extends \core_availability\condition {
             if (!isset($USER->availability_password[$cm->id])) {
                 $USER->availability_password[$cm->id] = [];
             }
-            $USER->availability_password[$cm->id][] = $this->password;
+            $USER->availability_password[$cm->id][] = $passwordhash;
         } else {
-            // Save the entered password in the DB, in case the password is changed or there are multiple passwords
+            // Save the hash of the entered password in the DB, in case the password is changed or there are multiple passwords
             // on an activity (no idea why that would be done, but, in theory, it is supported by the code).
             $ins = (object) [
                 'courseid' => $cm->course,
                 'cmid' => $cm->id,
                 'userid' => $userid,
-                'password' => $this->password,
+                'passwordhash' => $passwordhash,
             ];
             $DB->insert_record('availability_password_grant', $ins, false);
         }
@@ -237,6 +261,11 @@ class condition extends \core_availability\condition {
     /**
      * Internal check to see if the password has been entered for this condition.
      *
+     * Depending on the "Remember password entered" setting, the accepted passwords are looked up
+     * in the session of the current user or in the database table availability_password_grant.
+     * Only the salted hashes of the accepted passwords are stored, so the hash of the configured password
+     * is compared with them.
+     *
      * @param cm_info $cm
      * @param int $userid
      * @return bool
@@ -244,43 +273,54 @@ class condition extends \core_availability\condition {
     private function is_available_internal(cm_info $cm, $userid) {
         global $USER, $DB;
 
+        // Compute the hash of the configured password which is compared with the stored hashes.
+        $passwordhash = self::get_password_hash($cm->id, $this->password);
+
+        // Case 1: The availability is checked for another user than the current user.
         if ($userid != $USER->id) {
+            // The session of another user is not accessible, so the password can never be accepted
+            // if the passwords are remembered per session.
             if ($this->remember_session()) {
                 return false; // Only remember whilst the user is logged in.
             }
             // Not the current user - just load a single record.
-            $cond = ['cmid' => $cm->id, 'userid' => $userid, 'password' => $this->password];
+            // This is not cached as checks for other users are rare (e.g. in reports or in tasks).
+            $cond = ['cmid' => $cm->id, 'userid' => $userid, 'passwordhash' => $passwordhash];
             return $DB->record_exists('availability_password_grant', $cond);
         }
 
-        if (self::$passwordsaccepted === null) {
-            // Current user, load the results for the whole course.
-            if ($this->remember_session()) {
-                // Retrieve from the user session.
-                if (isset($USER->availability_password)) {
-                    self::$passwordsaccepted = $USER->availability_password;
-                } else {
-                    self::$passwordsaccepted = [];
-                }
-            } else {
-                // Retrieve from the database.
-                $cond = ['courseid' => $cm->course, 'userid' => $userid];
-                $recs = $DB->get_records('availability_password_grant', $cond);
-                self::$passwordsaccepted = [];
-                foreach ($recs as $rec) {
-                    if (!isset(self::$passwordsaccepted[$rec->cmid])) {
-                        self::$passwordsaccepted[$rec->cmid] = [];
-                    }
-                    self::$passwordsaccepted[$rec->cmid][] = $rec->password;
-                }
+        // Case 2: The availability is checked for the current user and the passwords are remembered per session.
+        if ($this->remember_session()) {
+            // Current user, check the user session directly as it always belongs to the current user.
+            // The session data is not copied to the static cache as this would not save anything,
+            // so the static cache below is only used if the accepted passwords are stored in the database.
+            if (!isset($USER->availability_password[$cm->id])) {
+                return false;
+            }
+            return in_array($passwordhash, $USER->availability_password[$cm->id], true);
+        }
+
+        // Case 3: The availability is checked for the current user and the passwords are remembered in the database.
+        // As this check runs for every password-protected activity on a course page, the accepted passwords
+        // are loaded once per user and course and kept in the static cache for the rest of the request.
+        if (!isset(self::$passwordsaccepted[$userid][$cm->course])) {
+            // Current user, load the results for the whole course from the database.
+            $cond = ['courseid' => $cm->course, 'userid' => $userid];
+            $recs = $DB->get_records('availability_password_grant', $cond);
+            // Initialise the course entry even if there are no records to avoid querying the database again.
+            self::$passwordsaccepted[$userid][$cm->course] = [];
+            foreach ($recs as $rec) {
+                self::$passwordsaccepted[$userid][$cm->course][$rec->cmid][] = $rec->passwordhash;
             }
         }
 
         // Check to see if the user has entered the correct password.
-        if (!isset(self::$passwordsaccepted[$cm->id])) {
+        // There can be multiple accepted hashes per activity if the password was changed or if there are
+        // multiple password conditions on the activity, so the hash of this condition's password must be among them.
+        if (!isset(self::$passwordsaccepted[$userid][$cm->course][$cm->id])) {
             return false;
         }
-        return in_array($this->password, self::$passwordsaccepted[$cm->id]);
+        return in_array($passwordhash, self::$passwordsaccepted[$userid][$cm->course][$cm->id], true);
     }
 
     /**
@@ -317,6 +357,9 @@ class condition extends \core_availability\condition {
      * Checks the given password against the restrictions set for the given cm.
      * If the password matches, then that restriction is marked as being met.
      *
+     * Every submission for a cm with a password restriction is logged with a password_accepted or
+     * password_rejected event to make repeated wrong passwords (e.g. brute-force attempts) auditable.
+     *
      * @param cm_info $cm
      * @param string $password
      * @param int $userid (optional)
@@ -328,14 +371,36 @@ class condition extends \core_availability\condition {
         if ($userid === null) {
             $userid = $USER->id;
         }
-        $correct = false;
+        // Do not log anything if the activity has no password condition, as no password could unlock it anyway
+        // and rejected events for such activities would only add noise to the logs.
         $pconds = self::get_password_conditions($cm);
-        foreach ($pconds as $pcond) {
-            if ($pcond->check_password($password)) {
-                $pcond->save_available($cm, $userid);
-                $correct = true;
+        if (!$pconds) {
+            return false;
+        }
+
+        $correct = false;
+        // An empty password is never correct.
+        if ((string) $password !== '') {
+            foreach ($pconds as $pcond) {
+                if ($pcond->check_password($password)) {
+                    $pcond->save_available($cm, $userid);
+                    $correct = true;
+                }
             }
         }
+
+        // Log the submission, but never the entered password itself.
+        $params = [
+            'context' => $cm->context,
+            'relateduserid' => $userid,
+        ];
+        if ($correct) {
+            $event = event\password_accepted::create($params);
+        } else {
+            $event = event\password_rejected::create($params);
+        }
+        $event->trigger();
+
         return $correct;
     }
 
@@ -357,6 +422,10 @@ class condition extends \core_availability\condition {
      * @return condition[]
      */
     private static function get_password_conditions(cm_info $cm) {
+        // A cm without any availability restriction has no availability tree.
+        if ($cm->availability === null) {
+            return [];
+        }
         $info = new info_module($cm);
         $tree = $info->get_availability_tree();
         return $tree->get_all_children('\\availability_password\\condition');

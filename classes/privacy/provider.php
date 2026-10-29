@@ -57,7 +57,7 @@ class provider implements
                         'courseid' => 'privacy:metadata:availability_password_grant:courseid',
                         'cmid' => 'privacy:metadata:availability_password_grant:cmid',
                         'userid' => 'privacy:metadata:availability_password_grant:userid',
-                        'password' => 'privacy:metadata:availability_password_grant:password',
+                        'passwordhash' => 'privacy:metadata:availability_password_grant:passwordhash',
                 ],
             'privacy:metadata:availability_password_grant'
         );
@@ -101,7 +101,7 @@ class provider implements
     public static function export_user_data(approved_contextlist $contextlist) {
         global $DB;
 
-        if (empty($contextlist)) {
+        if (empty($contextlist->count())) {
             return;
         }
 
@@ -112,7 +112,7 @@ class provider implements
 
         $sql = "SELECT
                     c.id AS contextid,
-                    a.courseid, a.cmid, a.userid, a.password
+                    a.courseid, a.cmid, a.userid
                   FROM {context} c
                   JOIN {course_modules} cm ON cm.id = c.instanceid AND c.contextlevel = :contextlevel
                   JOIN {availability_password_grant} a ON a.cmid = cm.id

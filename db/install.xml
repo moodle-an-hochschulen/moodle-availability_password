@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="availability/condition/password/db" VERSION="20160118" COMMENT="XMLDB file for Moodle availability/condition/password"
+<XMLDB PATH="availability/condition/password/db" VERSION="2026100501" COMMENT="XMLDB file for Moodle availability/condition/password"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
@@ -10,7 +10,7 @@
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The ID of the course where the password was entered."/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The ID of the course module for which the password was entered."/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The ID of the user who has entered the password."/>
-        <FIELD NAME="password" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The password that was entered."/>
+        <FIELD NAME="passwordhash" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="The SHA-256 hash of the password that was entered, salted with the cmid."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

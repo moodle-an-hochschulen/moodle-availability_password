@@ -4,7 +4,7 @@ moodle-availability_password
 Changes
 -------
 
-### Unreleased
+### v4.5-r3
 
 * 2026-10-28 - Tests: Cover all privacy provider functions with PHPUnit tests and fix the @covers annotations, fix the privacy export for an empty contextlist.
 * 2026-10-28 - Improvement: Log accepted and rejected password submissions with events to make brute-force attempts auditable.

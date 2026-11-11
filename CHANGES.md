@@ -4,6 +4,8 @@ moodle-availability_password
 Changes
 -------
 
+* 2026-11-11 - Feature: Add availability/password:viewpassword capability that (by default) allows managers, teachers, and non-editing teachers to see the configured password via a "Show password" spoiler link in the activity restriction info.
+
 ### v5.3-r2
 
 * 2026-10-28 - Tests: Cover all privacy provider functions with PHPUnit tests and fix the @covers annotations, fix the privacy export for an empty contextlist.

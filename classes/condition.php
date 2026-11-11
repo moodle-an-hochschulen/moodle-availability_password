@@ -164,6 +164,21 @@ class condition extends \core_availability\condition {
                 $PAGE->requires->yui_module('moodle-availability_password-popup', 'M.availability_password.popup.init');
             }
         }
+
+        // If the user has the viewpassword capability, append a spoiler link that reveals the password on click.
+        if (has_capability('availability/password:viewpassword', $cm->context)) {
+            $str .= ' ' . \core\output\html_writer::tag('a',
+                get_string('showpassword', 'availability_password'),
+                [
+                    'href' => '#',
+                    'class' => 'availability_password-viewpassword',
+                    'data-password' => $this->password,
+                    'onclick' => 'var s=document.createElement(\'kbd\');'
+                        . 's.textContent=this.dataset.password;this.parentNode.replaceChild(s,this);return false;',
+                ]
+            );
+        }
+
         return $str;
     }
 

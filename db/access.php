@@ -35,4 +35,14 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
+    'availability/password:viewpassword' => [
+        'captype' => 'read',
+        'riskbitmask' => 0,
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+        ],
+    ],
 ];
